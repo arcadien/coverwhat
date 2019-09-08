@@ -1,6 +1,7 @@
+#include <boarddefs.h>
+
 #include <LowPower.h>
 
-#include <boarddefs.h>
 #include <IRremote.h>
 #include <IRremoteInt.h>
 #include "meta.h"
