@@ -43,6 +43,7 @@ endif(CMAKE_BUILD_TYPE MATCHES Debug)
 
 include_directories("${CMAKE_SOURCE_DIR}/")
 include_directories("${CMAKE_SOURCE_DIR}/include/")
+include_directories("${CMAKE_SOURCE_DIR}/third_party/catch2/")
 
 if(AVR)
 	##########################################################################
@@ -103,7 +104,9 @@ foreach(test_ ${TESTS})
 		avr_target_link_libraries(${test_}_driver unity)
 	else()
 		add_executable(${test_}_driver tests/${test_})
-		target_link_libraries(${test_}_driver unity)
+    target_link_libraries(${test_}_driver unity)
+		target_link_libraries(${test_}_driver atomic)
+		target_link_libraries(${test_}_driver log)
 	endif()
 	add_test(${test_}_driver ${test_}_driver)
 endforeach()
