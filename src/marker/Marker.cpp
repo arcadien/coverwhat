@@ -1,10 +1,12 @@
+#include <Arduino.h>
 #include <boarddefs.h>
 
 #include <LowPower.h>
 
 #include <IRremote.h>
 #include <IRremoteInt.h>
-#include "meta.h"
+
+#include <common/meta.h>
 
 
 
@@ -128,7 +130,7 @@ void setup() {
 #ifdef SERIAL_DEBUG
   Serial.print("CPU freq: ");
   Serial.println(F_CPU);
-  Print("Ready");
+  Serial.println("Ready");
 #endif
 
   SetupHeartBeat();
@@ -227,9 +229,9 @@ void loop() {
         digitalWrite(LED, LOW);
         delay(100);
       }
-      attachInterrupt (digitalPinToInterrupt (_wakePin), wake, LOW);
+      attachInterrupt (0, wake, LOW);
       LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF);
-      detachInterrupt (digitalPinToInterrupt (_wakePin));
+      detachInterrupt (0);
     }
   }
 #if defined(HEARTBEAT)

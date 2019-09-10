@@ -31,9 +31,9 @@ enum Amount {
 */
 class EventBuilder {
   public:
-    SetSource(uint8_t source);
-    SetType(Type type);
-    SetAmount(Amount amount);
+    void SetSource(uint8_t source);
+    void SetType(Type type);
+    void SetAmount(Amount amount);
 
     // return 16 bits where only 11 from 0
     // are relevant
@@ -52,7 +52,7 @@ class EventBuilder {
 */
 class EventDecoder {
   public:
-    SetEvent(uint16_t event);
+    void SetEvent(uint16_t event);
     uint8_t GetSource();
     Type GetType();
     Amount GetAmount();

@@ -7,3 +7,6 @@
 [submodule "third_party/Low-Power"]
 	path = third_party/Low-Power
 	url = https://github.com/rocketscream/Low-Power.git
+[submodule "third_party/iremote"]
+	path = third_party/iremote
+	url = https://github.com/z3t0/Arduino-IRremote.git

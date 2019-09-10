@@ -1,4 +1,10 @@
 #include <unity.h>
+
+//
+// The simulated hardware won't be executed on real hardware
+//
+#if(not defined AVR)
+
 #include <hardware/Simulated.h>
 
 #include <chrono>
@@ -39,3 +45,12 @@ int main(int, char **)
 
     return UNITY_END();
 }
+
+#else
+
+int main(int, char **)
+{
+    UNITY_BEGIN();
+    return UNITY_END();
+}
+#endif
