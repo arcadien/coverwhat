@@ -18,10 +18,6 @@ void tearDown(void)
 {
 }
 
-void Expect_test_to_compile()
-{
-}
-
 void Expect_hardware_to_be_able_to_sleep_for_some_ms()
 {
   hardware::Hardware<hardware::Simulated> hw;
@@ -40,7 +36,6 @@ void Expect_hardware_to_be_able_to_sleep_for_some_ms()
 int main(int, char **)
 {
     UNITY_BEGIN();
-    RUN_TEST(Expect_test_to_compile);
     RUN_TEST(Expect_hardware_to_be_able_to_sleep_for_some_ms);
 
     return UNITY_END();
