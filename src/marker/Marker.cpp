@@ -6,10 +6,6 @@
 #include <IRremote.h>
 #include <IRremoteInt.h>
 
-#include <common/meta.h>
-
-
-
 IRsend irsend;
 
 const uint16_t ONE   = 0b00000000000001;

@@ -16,8 +16,8 @@ endif()
 file(GLOB COVERWHAT_LIB_SRC "${CMAKE_SOURCE_DIR}/src/api/*.cpp")
 include_directories("${CMAKE_SOURCE_DIR}/include/")
 
-set(PLAYER_SOURCES "${CMAKE_SOURCE_DIR}/src/marker/Marker.cpp ${COMMON_SRC}")
-set(MARKER_SOURCES "${CMAKE_SOURCE_DIR}/src/player/Player.cpp ${COMMON_SRC}")
+set(PLAYER_SOURCES "${CMAKE_SOURCE_DIR}/src/marker/Marker.cpp")
+set(MARKER_SOURCES "${CMAKE_SOURCE_DIR}/src/player/Player.cpp")
 
 ##########################################################################
 # set compiler options for build types
@@ -64,8 +64,6 @@ if(AVR)
   file(GLOB IREMOTE_SRC "${CMAKE_SOURCE_DIR}/third_party/iremote/*.cpp")
   add_avr_library(iremote STATIC ${IREMOTE_SRC})
   avr_target_link_libraries(iremote arduino)
-
-  avr_add_library(coverwhat STATIC ${COVERWHAT_LIB_SRC})
 
   ##########################################################################
   # compiler options for all build types
