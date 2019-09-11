@@ -2,7 +2,7 @@ language: c++
 dist: bionic
 before_install:
   - sudo apt-get update
-  - sudo apt-get install -y cmake gcc-avr binutils-avr avr-libc
+  - sudo apt-get install -y cmake gcc-avr binutils-avr avr-libc arduino-core
   - pip install --user cpp-coveralls
 
 jobs:
@@ -23,5 +23,5 @@ jobs:
       script:
         - mkdir build_avr
         - cd build_avr
-        - cmake  ../ -G "Unix Makefiles" -DMCU_SPEED=16000000U -DAVR_MCU=attiny84a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../third_party/cmake-avr/generic-gcc-avr.cmake
+        - sh ../scripts/init-avr-linux.sh
         - cmake --build .
