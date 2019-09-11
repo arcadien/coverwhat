@@ -44,8 +44,8 @@ if(AVR)
   endif(CMAKE_BUILD_TYPE MATCHES Debug)
 
   add_definitions("-DARDUINO=101")
-  include_directories("${CMAKE_SOURCE_DIR}/third_party/Low-Power/")
-  include_directories("${CMAKE_SOURCE_DIR}/third_party/iremote/")
+  include_directories("${CMAKE_SOURCE_DIR}/third_party/avr/Low-Power/")
+  include_directories("${CMAKE_SOURCE_DIR}/third_party/avr/iremote/")
   include_directories("/usr/share/arduino/hardware/arduino/cores/arduino/")
   include_directories("/usr/share/arduino/hardware/arduino/variants/standard")
 
@@ -58,7 +58,7 @@ if(AVR)
   file(GLOB ARDUINO_INCLUDE "/usr/share/arduino/hardware/arduino/cores/arduino/*.h")
   add_avr_library(arduino STATIC ${ARDUINO_SRC_CPP} ${ARDUINO_SRC_C} ${ARDUINO_INCLUDE})
 
-  add_avr_library(lowpower STATIC "${CMAKE_SOURCE_DIR}/third_party/Low-Power/LowPower.cpp")
+  add_avr_library(lowpower STATIC "${CMAKE_SOURCE_DIR}/third_party/avr/Low-Power/LowPower.cpp")
   avr_target_link_libraries(lowpower arduino)
 
   file(GLOB IREMOTE_SRC "${CMAKE_SOURCE_DIR}/third_party/iremote/*.cpp")
