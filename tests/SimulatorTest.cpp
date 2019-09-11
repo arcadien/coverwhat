@@ -5,7 +5,7 @@
 //
 #if(not defined AVR)
 
-#include <hardware/Simulated.h>
+#include <hardware/simulator/Simulator.h>
 
 #include <chrono>
 #include <iostream>
@@ -20,7 +20,7 @@ void tearDown(void)
 
 void Expect_hardware_to_be_able_to_sleep_for_some_ms()
 {
-  hardware::Simulated hw;
+  hardware::Simulator hw;
   
     std::chrono::time_point<std::chrono::system_clock> start, end;
     start = std::chrono::system_clock::now();

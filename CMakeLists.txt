@@ -12,9 +12,10 @@ else()
   message("-- Compiling for AVR")
 endif()
 
-set(COVERWHAT_LIB_SRC 
-  "${CMAKE_SOURCE_DIR}/src/hardware/IHardware.cpp"
-)
+# Setup generic API
+file(GLOB COVERWHAT_LIB_SRC "${CMAKE_SOURCE_DIR}/src/api/*.cpp")
+include_directories("${CMAKE_SOURCE_DIR}/include/")
+
 set(PLAYER_SOURCES "${CMAKE_SOURCE_DIR}/src/marker/Marker.cpp ${COMMON_SRC}")
 set(MARKER_SOURCES "${CMAKE_SOURCE_DIR}/src/player/Player.cpp ${COMMON_SRC}")
 
@@ -23,7 +24,6 @@ set(MARKER_SOURCES "${CMAKE_SOURCE_DIR}/src/player/Player.cpp ${COMMON_SRC}")
 ##########################################################################
 
 include_directories("${CMAKE_SOURCE_DIR}/")
-include_directories("${CMAKE_SOURCE_DIR}/include/")
 include_directories("${CMAKE_SOURCE_DIR}/third_party/unity/src/")
 
 if(AVR)
@@ -110,9 +110,9 @@ if(AVR)
   set_target_properties(Marker PROPERTIES LINK_FLAGS "--wrap main" )
 else()
   
-  set(SIMULATED_SRC "${CMAKE_SOURCE_DIR}/src/hardware/Simulated.cpp")
+  file(GLOB SIMULATOR_SRC "${CMAKE_SOURCE_DIR}/src/hardware/simulator/*.cpp")
   
-    add_library(coverwhat STATIC ${COVERWHAT_LIB_SRC} ${SIMULATED_SRC})
+  add_library(coverwhat STATIC ${COVERWHAT_LIB_SRC} ${SIMULATOR_SRC})
 
   if(WITH_COVERAGE)
     set(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
@@ -133,7 +133,7 @@ SET(TESTS
 
 if(NOT AVR)
   list(APPEND TESTS
-    SimulatedHardwareTest.cpp
+    SimulatorTest.cpp
   )
 endif()
 

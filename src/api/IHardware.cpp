@@ -1,3 +1,3 @@
-#include <hardware/IHardware.h>
+#include <api/IHardware.h>
 
 hardware::IHardware::IHardware() noexcept {}
