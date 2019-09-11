@@ -20,7 +20,7 @@ void tearDown(void)
 
 void Expect_hardware_to_be_able_to_sleep_for_some_ms()
 {
-  hardware::Hardware<hardware::Simulated> hw;
+  hardware::Simulated hw;
   
     std::chrono::time_point<std::chrono::system_clock> start, end;
     start = std::chrono::system_clock::now();

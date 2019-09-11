@@ -4,8 +4,9 @@
 */
 
 enum Type {
-  DAMAGE,
-  _HEAL
+  DAMAGE, /* lower shield or health */
+  SHIELD, /* restore or add shield  */
+  HEAL    /* restore health         */
 };
 
 enum Amount {

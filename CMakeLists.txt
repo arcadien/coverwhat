@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 3.12)
 project(Coverwhat VERSION 0.1.0)
 set (CMAKE_CXX_STANDARD 11)
@@ -13,37 +12,44 @@ else()
   message("-- Compiling for AVR")
 endif()
 
-set(PLAYER_SOURCES "${CMAKE_SOURCE_DIR}/src/marker/Marker.cpp")
-set(MARKER_SOURCES "${CMAKE_SOURCE_DIR}/src/player/Player.cpp")
+set(COVERWHAT_LIB_SRC 
+  "${CMAKE_SOURCE_DIR}/src/hardware/IHardware.cpp"
+)
+set(PLAYER_SOURCES "${CMAKE_SOURCE_DIR}/src/marker/Marker.cpp ${COMMON_SRC}")
+set(MARKER_SOURCES "${CMAKE_SOURCE_DIR}/src/player/Player.cpp ${COMMON_SRC}")
 
 ##########################################################################
 # set compiler options for build types
 ##########################################################################
-if(CMAKE_BUILD_TYPE MATCHES Release)
-   set(CMAKE_C_FLAGS_RELEASE "-Os")
-   set(CMAKE_CXX_FLAGS_RELEASE "-Os")
-endif(CMAKE_BUILD_TYPE MATCHES Release)
-
-if(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
-   set(CMAKE_C_FLAGS_RELWITHDEBINFO "-Os -save-temps -g -gdwarf-3 -gstrict-dwarf")
-   set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Os -save-temps -g -gdwarf-3 -gstrict-dwarf")
-endif(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
-
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-   set(CMAKE_C_FLAGS_DEBUG "-O0 -save-temps -g -gdwarf-3 -gstrict-dwarf")
-   set(CMAKE_CXX_FLAGS_DEBUG "-O0 -save-temps -g -gdwarf-3 -gstrict-dwarf")
-endif(CMAKE_BUILD_TYPE MATCHES Debug)
 
 include_directories("${CMAKE_SOURCE_DIR}/")
 include_directories("${CMAKE_SOURCE_DIR}/include/")
 include_directories("${CMAKE_SOURCE_DIR}/third_party/unity/src/")
 
 if(AVR)
+  
+  if(CMAKE_BUILD_TYPE MATCHES Release)
+     set(CMAKE_C_FLAGS_RELEASE "-Os")
+     set(CMAKE_CXX_FLAGS_RELEASE "-Os")
+  endif(CMAKE_BUILD_TYPE MATCHES Release)
+
+  if(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
+     set(CMAKE_C_FLAGS_RELWITHDEBINFO "-Os -save-temps -g -gdwarf-3 -gstrict-dwarf")
+     set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Os -save-temps -g -gdwarf-3 -gstrict-dwarf")
+  endif(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
+
+  if(CMAKE_BUILD_TYPE MATCHES Debug)
+     set(CMAKE_C_FLAGS_DEBUG "-O0 -save-temps -g -gdwarf-3 -gstrict-dwarf")
+     set(CMAKE_CXX_FLAGS_DEBUG "-O0 -save-temps -g -gdwarf-3 -gstrict-dwarf")
+  endif(CMAKE_BUILD_TYPE MATCHES Debug)
+
   add_definitions("-DARDUINO=101")
   include_directories("${CMAKE_SOURCE_DIR}/third_party/Low-Power/")
   include_directories("${CMAKE_SOURCE_DIR}/third_party/iremote/")
   include_directories("/usr/share/arduino/hardware/arduino/cores/arduino/")
   include_directories("/usr/share/arduino/hardware/arduino/variants/standard")
+
+  add_avr_library(coverwhat STATIC ${COVERWHAT_LIB_SRC})
 
   add_avr_library(unity third_party/unity/src/unity.c)
 
@@ -59,6 +65,7 @@ if(AVR)
   add_avr_library(iremote STATIC ${IREMOTE_SRC})
   avr_target_link_libraries(iremote arduino)
 
+  avr_add_library(coverwhat STATIC ${COVERWHAT_LIB_SRC})
 
   ##########################################################################
   # compiler options for all build types
@@ -92,14 +99,21 @@ if(AVR)
   avr_target_link_libraries(Player arduino)
   avr_target_link_libraries(Player lowpower)
   avr_target_link_libraries(Player iremote)
+  avr_target_link_libraries(Player coverwhat)
 
   avr_target_link_libraries(Marker arduino)
   avr_target_link_libraries(Marker lowpower)
   avr_target_link_libraries(Marker iremote)
+  avr_target_link_libraries(Marker coverwhat)
 
   set_target_properties(Player PROPERTIES LINK_FLAGS "--wrap main" )
   set_target_properties(Marker PROPERTIES LINK_FLAGS "--wrap main" )
 else()
+  
+  set(SIMULATED_SRC "${CMAKE_SOURCE_DIR}/src/hardware/Simulated.cpp")
+  
+    add_library(coverwhat STATIC ${COVERWHAT_LIB_SRC} ${SIMULATED_SRC})
+
   if(WITH_COVERAGE)
     set(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
     set(CMAKE_C_FLAGS   "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
@@ -115,17 +129,23 @@ enable_testing()
 # Scenario Runner
 SET(TESTS
  firstTest.cpp
- SimulatedHardwareTest.cpp
 )
 
+if(NOT AVR)
+  list(APPEND TESTS
+    SimulatedHardwareTest.cpp
+  )
+endif()
 
 foreach(test_ ${TESTS})
 
   if(AVR)
     add_avr_executable(${test_}_driver tests/${test_})
     avr_target_link_libraries(${test_}_driver unity)
+    avr_target_link_libraries(${test_}_driver coverwhat)
   else()
     add_executable(${test_}_driver tests/${test_})
+    target_link_libraries(${test_}_driver coverwhat)
     target_link_libraries(${test_}_driver unity)
     target_link_libraries(${test_}_driver atomic)
     target_link_libraries(${test_}_driver log)
