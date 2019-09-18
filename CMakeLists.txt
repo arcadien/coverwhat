@@ -12,19 +12,20 @@ else()
   message("-- Compiling for AVR")
 endif()
 
-# Setup generic API
-file(GLOB COVERWHAT_LIB_SRC "${CMAKE_SOURCE_DIR}/src/api/*.cpp")
-include_directories("${CMAKE_SOURCE_DIR}/include/")
+set(SOURCES_DIR "${CMAKE_SOURCE_DIR}/sources")
 
-set(PLAYER_SOURCES "${CMAKE_SOURCE_DIR}/src/marker/Marker.cpp")
-set(MARKER_SOURCES "${CMAKE_SOURCE_DIR}/src/player/Player.cpp")
+# Setup generic API
+file(GLOB COVERWHAT_LIB_SRC "${SOURCES_DIR}/src/api/*.cpp")
+include_directories("${SOURCES_DIR}/include/")
+
+set(PLAYER_SOURCES "${SOURCES_DIR}/src/marker/Marker.cpp")
+set(MARKER_SOURCES "${SOURCES_DIR}/src/player/Player.cpp")
 
 ##########################################################################
 # set compiler options for build types
 ##########################################################################
 
-include_directories("${CMAKE_SOURCE_DIR}/")
-include_directories("${CMAKE_SOURCE_DIR}/third_party/unity/src/")
+include_directories("${SOURCES_DIR}/third_party/unity/src/")
 
 if(AVR)
   
@@ -44,24 +45,24 @@ if(AVR)
   endif(CMAKE_BUILD_TYPE MATCHES Debug)
 
   add_definitions("-DARDUINO=101")
-  include_directories("${CMAKE_SOURCE_DIR}/third_party/Low-Power/")
-  include_directories("${CMAKE_SOURCE_DIR}/third_party/iremote/")
+  include_directories("${SOURCES_DIR}/third_party/Low-Power/")
+  include_directories("${SOURCES_DIR}/third_party/iremote/")
   include_directories("/usr/share/arduino/hardware/arduino/cores/arduino/")
   include_directories("/usr/share/arduino/hardware/arduino/variants/standard")
 
   add_avr_library(coverwhat STATIC ${COVERWHAT_LIB_SRC})
 
-  add_avr_library(unity third_party/unity/src/unity.c)
+  add_avr_library(unity "${SOURCES_DIR}/third_party/unity/src/unity.c")
 
   file(GLOB ARDUINO_SRC_CPP "/usr/share/arduino/hardware/arduino/cores/arduino/*.cpp")
   file(GLOB ARDUINO_SRC_C   "/usr/share/arduino/hardware/arduino/cores/arduino/*.c")
   file(GLOB ARDUINO_INCLUDE "/usr/share/arduino/hardware/arduino/cores/arduino/*.h")
   add_avr_library(arduino STATIC ${ARDUINO_SRC_CPP} ${ARDUINO_SRC_C} ${ARDUINO_INCLUDE})
 
-  add_avr_library(lowpower STATIC "${CMAKE_SOURCE_DIR}/third_party/Low-Power/LowPower.cpp")
+  add_avr_library(lowpower STATIC "${SOURCES_DIR}/third_party/Low-Power/LowPower.cpp")
   avr_target_link_libraries(lowpower arduino)
 
-  file(GLOB IREMOTE_SRC "${CMAKE_SOURCE_DIR}/third_party/iremote/*.cpp")
+  file(GLOB IREMOTE_SRC "${SOURCES_DIR}/third_party/iremote/*.cpp")
   add_avr_library(iremote STATIC ${IREMOTE_SRC})
   avr_target_link_libraries(iremote arduino)
 
@@ -108,7 +109,7 @@ if(AVR)
   set_target_properties(Marker PROPERTIES LINK_FLAGS "--wrap main" )
 else()
   
-  file(GLOB SIMULATOR_SRC "${CMAKE_SOURCE_DIR}/src/hardware/simulator/*.cpp")
+  file(GLOB SIMULATOR_SRC "${SOURCES_DIR}/src/hardware/simulator/*.cpp")
   
   add_library(coverwhat STATIC ${COVERWHAT_LIB_SRC} ${SIMULATOR_SRC})
 
@@ -116,7 +117,7 @@ else()
     set(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
     set(CMAKE_C_FLAGS   "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
   endif()
-  add_subdirectory("third_party/unity")
+  add_subdirectory("${SOURCES_DIR}/third_party/unity")
   # add_library(PlayerLib OBJECT ${PLAYER_SOURCES})
   # add_library(MarkerLib OBJECT ${MARKER_SOURCES})
 endif()
@@ -138,11 +139,11 @@ endif()
 foreach(test_ ${TESTS})
 
   if(AVR)
-    add_avr_executable(${test_}_driver tests/${test_})
+    add_avr_executable(${test_}_driver ${SOURCES_DIR}/tests/${test_})
     avr_target_link_libraries(${test_}_driver unity)
     avr_target_link_libraries(${test_}_driver coverwhat)
   else()
-    add_executable(${test_}_driver tests/${test_})
+    add_executable(${test_}_driver ${SOURCES_DIR}/tests/${test_})
     target_link_libraries(${test_}_driver coverwhat)
     target_link_libraries(${test_}_driver unity)
     target_link_libraries(${test_}_driver atomic)
