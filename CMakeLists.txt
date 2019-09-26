@@ -127,7 +127,7 @@ enable_testing()
 
 # Scenario Runner
 SET(TESTS
- firstTest.cpp
+ ActionTest.cpp
 )
 
 if(NOT AVR)
