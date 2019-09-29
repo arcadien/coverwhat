@@ -1,0 +1,24 @@
+# Scenarii defined here will validate the version 1 of the API.
+# For that, we will use a first weapon, the Vampire, which have
+# two actions, a damage one (primary) and a heal one (secondary).
+# When the Player using Vampire damages another Player, the target 
+# health is decreased.
+# When the Player using the Vampire heals another Player, the other
+# player health is raised.
+#
+# NOTE: Entity values, such as health, can be decrease until null. 
+#       They can be increased until their own maximum values.
+#
+Feature: Validation of basic game concepts
+
+Scenario: A player hurts another one
+Given Player one and Player Two
+And Player one uses Vampire Weapon
+When Player one hit Player two with main action
+Then Player two Health Entity is decreased by the Amount of primary action
+
+Scenario: A player heal another one
+Given Player one and Player Two
+And Player one uses Vampire Weapon
+When Player one hit Player two with secondary action
+Then Player two Health Entity is increased by the Amount of secondary action
