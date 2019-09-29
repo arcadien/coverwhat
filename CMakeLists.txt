@@ -128,6 +128,8 @@ enable_testing()
 # Scenario Runner
 SET(TESTS
  ActionTest.cpp
+ WeaponTest.cpp
+ VampireTest.cpp
 )
 
 if(NOT AVR)

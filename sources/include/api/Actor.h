@@ -18,6 +18,8 @@ namespace Actor{
         : _primary(primaryAction), _secondary(secondaryAction)
       {
       }
+      Action const& GetPrimary(){ return _primary;}
+      Action const& GetSecondary(){ return _secondary;}
 
     private:
       Action const& _primary;
