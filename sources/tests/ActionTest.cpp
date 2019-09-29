@@ -1,35 +1,10 @@
 #include <unity.h>
 #include <api/Action.h>
+#include <api/Meta.h>
 
-void Expect_Action_to_use_provided_coolDown()
-{
-  const uint8_t expectedCoolDown = 30;
-  uint8_t actualCoolDown;
-
-  Action damage5(0x1, 5, 30);
-  actualCoolDown = damage5.GetCoolDownMs();
-  TEST_ASSERT_EQUAL_INT(expectedCoolDown, actualCoolDown);
-}
-
-void Expect_Action_to_use_provided_value()
-{
-  const uint8_t expectedValue = 5;
-  uint8_t actualValue;
-
-  Action damage5(0x1, 5, 30);
-  actualValue = damage5.GetValue();
-  TEST_ASSERT_EQUAL_INT(expectedValue, actualValue);
-}
-
-void Expect_Action_to_use_provided_entityTag()
-{
-  const uint8_t expectedEntityTag = 0x1;
-  uint8_t actualEntityTag;
-
-  Action damage5(0x1, 5, 30);
-  actualEntityTag = damage5.GetTargetEntityTag();
-  TEST_ASSERT_EQUAL_INT(expectedEntityTag, actualEntityTag);
-}
+void Expect_Action_to_use_provided_coolDown();
+void Expect_Action_to_use_provided_entityTag();
+void Expect_Action_to_use_provided_value();
 
 int main(int, char **)
 {
@@ -41,3 +16,32 @@ int main(int, char **)
 }
 void tearDown(){}
 void setUp(){}
+
+void Expect_Action_to_use_provided_coolDown()
+{
+  const uint8_t expectedCoolDown = 30;
+  uint8_t actualCoolDown;
+  Action action(Action::Type::DAMAGE, 0x1, Action::Amount::AMOUNT_5, 30);
+  actualCoolDown = action.GetCoolDownMs();
+  TEST_ASSERT_EQUAL_INT(expectedCoolDown, actualCoolDown);
+}
+
+void Expect_Action_to_use_provided_value()
+{
+  auto const expectedValue = Action::Amount::AMOUNT_5;
+  uint8_t actualValue;
+  Action action(Action::Type::DAMAGE, 0x1, Action::Amount::AMOUNT_5, 30);
+  actualValue = action.GetAmount();
+  TEST_ASSERT_EQUAL_INT(expectedValue, actualValue);
+}
+
+void Expect_Action_to_use_provided_entityTag()
+{
+  const uint8_t expectedEntityTag = 0x1;
+  uint8_t actualEntityTag;
+
+  Action action(Action::Type::DAMAGE, 0x1, Action::Amount::AMOUNT_5, 30);
+  actualEntityTag = action.GetTargetEntityTag();
+  TEST_ASSERT_EQUAL_INT(expectedEntityTag, actualEntityTag);
+}
+
