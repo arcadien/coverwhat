@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
+
 project(Coverwhat VERSION 0.1.0)
+
 set (CMAKE_CXX_STANDARD 11)
 
 add_definitions("-DF_CPU=${MCU_SPEED}")
@@ -145,7 +147,12 @@ foreach(test_ ${TESTS})
     avr_target_link_libraries(${test_}_driver unity)
     avr_target_link_libraries(${test_}_driver coverwhat)
   else()
+  	
+  	set(THREADS_PREFER_PTHREAD_FLAG ON)
+  	find_package (Threads REQUIRED)
+  	
     add_executable(${test_}_driver ${SOURCES_DIR}/tests/${test_})
+    target_link_libraries(${test_}_driver Threads::Threads)
     target_link_libraries(${test_}_driver coverwhat)
     target_link_libraries(${test_}_driver unity)
     target_link_libraries(${test_}_driver atomic)

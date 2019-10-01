@@ -54,7 +54,9 @@ void Expect_hardware_to_be_able_to_sleep_for_some_ms() {
 
   int elapsed_ms = end - begin;
 
-  TEST_ASSERT_EQUAL(250, elapsed_ms);
+  // sometimes rounding leads to 251ms so
+  // add a little tolerance here
+  TEST_ASSERT_INT_WITHIN(1, 250, elapsed_ms);
 }
 
 int main(int, char **) {

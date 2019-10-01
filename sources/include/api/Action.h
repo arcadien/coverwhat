@@ -68,8 +68,9 @@ public:
   }
 
 private:
-  Entity::Tag const &_entityTag;
-  uint8_t _coolDown;
   Type _type;
+  Entity::Tag const &_entityTag;
   Amount _amount;
+  uint8_t _coolDown;
+
 };

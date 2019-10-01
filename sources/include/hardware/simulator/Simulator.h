@@ -2,7 +2,7 @@
 #pragma once
 
 #include <api/IHardware.h>
-#include <chrono>
+
 #include <memory>
 #include <thread>
 #include <mutex>
@@ -17,7 +17,7 @@ namespace hardware {
 class Simulator : public IHardware {
 public:
   
-  Simulator() : _stop(false){}
+  Simulator() : _epoch(0), _stop(false){}
 
   void sleepMs(uint8_t ms) override;
   void Setup() override;
@@ -29,7 +29,7 @@ public:
 
 private:
   std::shared_ptr<std::thread> _millisCounter;
-  std::chrono::steady_clock::time_point _epoch;
+  long long _epoch;
   bool _stop;
 };
 } // namespace hardware
