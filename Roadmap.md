@@ -1,7 +1,7 @@
 # v1.0
 ## Functional
 * Two players can fight
-* First weapon, the vampire.
+* First weapon, the vampire. The first version allow to heal or damage, without like with player entities.
 ## Technical
 * Base implementation of API
 * Implementation of hardware simulator  
