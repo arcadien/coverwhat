@@ -14,8 +14,10 @@ int main(int, char **) {
   RUN_TEST(Expect_Action_to_use_provided_coolDown);
   return UNITY_END();
 }
-void tearDown() {}
-void setUp() {}
+void tearDown() {
+}
+void setUp() {
+}
 
 void Expect_Action_to_use_provided_coolDown() {
   const uint8_t expectedCoolDown = 30;

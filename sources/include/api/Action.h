@@ -21,8 +21,7 @@
  * milliseconds.
  */
 class Action {
-
-public:
+ public:
   /*
    * Initial value which can take an Action
    *
@@ -46,7 +45,10 @@ public:
 
   Action(Type const &type, Entity::Tag const &entityTag, Amount const &amount,
          uint8_t cooldown)
-      : _type(type), _entityTag(entityTag), _amount(amount), _coolDown(cooldown) {}
+      : _type(type),
+        _entityTag(entityTag),
+        _amount(amount),
+        _coolDown(cooldown) {}
 
   Entity::Tag const &GetTargetEntityTag() const { return _entityTag; }
 
@@ -57,20 +59,19 @@ public:
   uint16_t Process(uint16_t currentValue) const {
     uint16_t result = currentValue;
     switch (_type) {
-    case (DAMAGE):
-      result -= (uint16_t)_amount;
-      break;
-    case (HEAL):
-      result += (uint16_t)_amount;
-      break;
+      case (DAMAGE):
+        result -= (uint16_t)_amount;
+        break;
+      case (HEAL):
+        result += (uint16_t)_amount;
+        break;
     }
     return result;
   }
 
-private:
+ private:
   Type _type;
   Entity::Tag const &_entityTag;
   Amount _amount;
   uint8_t _coolDown;
-
 };

@@ -3,14 +3,12 @@
 #include <stdint.h>
 namespace hardware {
 
-
-
 /*
  * Hardware abstraction layer
  *
  */
 class IHardware {
-public:
+ public:
   IHardware() noexcept;
   virtual ~IHardware() = default;
 
@@ -18,7 +16,7 @@ public:
    * Blocking call: during the sleep time, nothing but interrupt can occur
    */
   virtual void sleepMs(uint8_t ms) = 0;
-  
+
   virtual void Stop() = 0;
 
   /*
@@ -45,4 +43,4 @@ public:
    */
   virtual void OnTick() = 0;
 };
-} // namespace hardware
+}  // namespace hardware

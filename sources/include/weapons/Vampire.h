@@ -1,7 +1,13 @@
 #include <api/Actor.h>
+#include <api/ITransport.h>
 #include <api/Meta.h>
+namespace Weapons {
 
-namespace Weapons
-{
-    static const Actor::Weapon VAMPIRE = Actor::Weapon(Meta::Actions::DAMAGE5, Meta::Actions::HEAL5);
+class Vampire : public Actor::Weapon {
+public:
+  Vampire(transport::ITransport &transport)
+      : Actor::Weapon(transport, Meta::Actions::DAMAGE5, Meta::Actions::HEAL5) {
+  }
 };
+
+}; // namespace Weapons

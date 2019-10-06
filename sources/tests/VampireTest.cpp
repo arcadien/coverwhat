@@ -3,6 +3,7 @@
 #include <api/Action.h>
 #include <api/Actor.h>
 #include <api/Entity.h>
+#include <api/ITransport.h>
 #include <api/Meta.h>
 
 #include <weapons/Vampire.h>
@@ -18,11 +19,14 @@ int main(int, char **) {
       Expect_Vampire_to_heal_target_user_when_using_vampire_secondary_action);
   return UNITY_END();
 }
-void tearDown() {}
-void setUp() {}
+void tearDown() {
+}
+void setUp() {
+}
 
 void Expect_Vampire_to_damage_target_user_when_using_vampire_primary_action() {
-  Actor::Weapon vampire = Weapons::VAMPIRE;
+  transport::Dummy dummyTransport;
+  Weapons::Vampire vampire(dummyTransport);
   Actor::Player target;
   auto action = vampire.GetPrimary();
   target.SetEntityValue(Entity::Tag::Health, 10);
@@ -32,7 +36,8 @@ void Expect_Vampire_to_damage_target_user_when_using_vampire_primary_action() {
 }
 
 void Expect_Vampire_to_heal_target_user_when_using_vampire_secondary_action() {
-  Actor::Weapon vampire = Weapons::VAMPIRE;
+  transport::Dummy dummyTransport;
+  Weapons::Vampire vampire(dummyTransport);
   Entity health(Entity::Tag::Health, 1);
   Actor::Player target;
   auto action = vampire.GetSecondary();

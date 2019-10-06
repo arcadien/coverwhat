@@ -1,3 +1,4 @@
 build/
 
 build-avr/
+compile_commands.json

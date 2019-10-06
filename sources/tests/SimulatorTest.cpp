@@ -20,20 +20,15 @@ void setUp(void) {}
 
 void tearDown(void) {}
 
-void Expect_hardware_to_be_clocked()
-{
-  // extended Simulator class which 
+void Expect_hardware_to_be_clocked() {
+  // extended Simulator class which
   // count the ticks
-  class TestHw : public HardwareType
-  {
-    public:
+  class TestHw : public HardwareType {
+   public:
     int tickCount = 0;
-    void OnTick()
-    {
-      tickCount++;
-    }
+    void OnTick() { tickCount++; }
   };
-  TestHw hw; 
+  TestHw hw;
   hw.Setup();
   hw.sleepMs(250);
   hw.Stop();
@@ -41,7 +36,6 @@ void Expect_hardware_to_be_clocked()
 }
 
 void Expect_hardware_to_be_able_to_sleep_for_some_ms() {
-
   HardwareType hw;
   hw.Setup();
 

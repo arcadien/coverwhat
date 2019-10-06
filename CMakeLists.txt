@@ -137,7 +137,7 @@ include(CTest)
 enable_testing()
 
 # Scenario Runner
-set(TESTS ActionTest.cpp WeaponTest.cpp VampireTest.cpp)
+set(TESTS ActionTest.cpp SoftwareTransportTest.cpp WeaponTest.cpp VampireTest.cpp)
 
 if(NOT AVR)
   list(APPEND TESTS SimulatorTest.cpp)
@@ -158,7 +158,11 @@ foreach(test_ ${TESTS})
     target_link_libraries(${test_}_driver Threads::Threads)
     target_link_libraries(${test_}_driver coverwhat)
     target_link_libraries(${test_}_driver unity)
-    target_link_libraries(${test_}_driver atomic)
+    
+    if(NOT WIN32)
+      target_link_libraries(${test_}_driver atomic)
+    endif()
+
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
       target_link_libraries(${test_}_driver log)
     endif()
