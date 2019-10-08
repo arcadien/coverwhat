@@ -23,5 +23,5 @@ jobs:
       script:
         - mkdir build_avr
         - cd build_avr
-        - sh ../scripts/init-avr-linux.sh
+        - sh ../scripts/init-avr-linux.sh ..
         - cmake --build .
