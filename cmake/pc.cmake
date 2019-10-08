@@ -1,14 +1,18 @@
+#
+# This Cmake scripts perform project
+# configuration for non-embedded PC
+#
 
-  file(GLOB SIMULATOR_SRC "${SOURCES_DIR}/src/hardware/simulator/*.cpp")
+add_definitions("-Werror") 
 
-  add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_LIB_SRC} ${SIMULATOR_SRC})
+file(GLOB SIMULATOR_SRC "${SOURCES_DIR}/src/hardware/simulator/*.cpp")
 
-  if(WITH_COVERAGE)
-    set(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
-    set(CMAKE_C_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
-  endif()
+add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_LIB_SRC} ${SIMULATOR_SRC})
 
-  add_subdirectory("${SOURCES_DIR}/third_party/unity")
+if(WITH_COVERAGE)
+  set(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
+  set(CMAKE_C_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
+endif()
 
 foreach(test_ ${UNIT_TESTS})
   set(THREADS_PREFER_PTHREAD_FLAG ON)

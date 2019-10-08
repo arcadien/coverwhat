@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.10)
 
 project(Koth VERSION 0.1.0)
 
@@ -8,7 +8,6 @@ set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_definitions("-Werror") 
 add_definitions("-pedantic")
 add_definitions("-pedantic-errors")
 
@@ -30,6 +29,7 @@ set(PLAYER_SOURCES "${SOURCES_DIR}/src/marker/Marker.cpp")
 set(MARKER_SOURCES "${SOURCES_DIR}/src/player/Player.cpp")
 
 include_directories("${SOURCES_DIR}/third_party/unity/src/")
+add_subdirectory("${SOURCES_DIR}/third_party/unity")
 
 include(CTest)
 enable_testing()
