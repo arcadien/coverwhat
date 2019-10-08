@@ -10,4 +10,4 @@ public:
   }
 };
 
-}; // namespace Weapons
+}// namespace Weapons
