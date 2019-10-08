@@ -9,7 +9,6 @@ set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 set(CMAKE_CXX_STANDARD 11)
 
 add_definitions("-pedantic")
-add_definitions("-pedantic-errors")
 
 include(sources/files.cmake)
 
@@ -29,7 +28,6 @@ set(PLAYER_SOURCES "${SOURCES_DIR}/src/marker/Marker.cpp")
 set(MARKER_SOURCES "${SOURCES_DIR}/src/player/Player.cpp")
 
 include_directories("${SOURCES_DIR}/third_party/unity/src/")
-add_subdirectory("${SOURCES_DIR}/third_party/unity")
 
 include(CTest)
 enable_testing()

@@ -4,10 +4,12 @@
 #
 
 add_definitions("-Werror") 
+add_definitions("-pedantic-errors")
 
 file(GLOB SIMULATOR_SRC "${SOURCES_DIR}/src/hardware/simulator/*.cpp")
 
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_LIB_SRC} ${SIMULATOR_SRC})
+add_library(unity STATIC "${SOURCES_DIR}/third_party/unity/src/unity.c")
 
 if(WITH_COVERAGE)
   set(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")

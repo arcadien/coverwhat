@@ -9,7 +9,7 @@ class Action;
 namespace transport {
 class ITransport {
 public:
-  virtual ~ITransport() = default;
+  virtual ~ITransport();
 
   virtual void Queue(Action const &action) = 0;
 };
@@ -19,14 +19,14 @@ public:
  */
 class Dummy : public ITransport {
 public:
-  ~Dummy() override = default;
+  ~Dummy() override;
   void Queue(Action const &action) override {
   }
 };
 
 class Software : public ITransport {
 public:
-  ~Software() override = default;
+  ~Software() override;
 
   Software() = default;
 

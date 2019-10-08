@@ -15,6 +15,7 @@
 # compiler options for all build types
 # ############################################################################
 add_definitions("-DF_CPU=${MCU_SPEED}")
+add_definitions("-std=gnu++11")
 add_definitions("-fpack-struct")
 add_definitions("-fshort-enums")
 add_definitions("-Wall")
@@ -22,6 +23,9 @@ add_definitions("-funsigned-char")
 add_definitions("-funsigned-bitfields")
 add_definitions("-ffunction-sections")
 add_definitions("-DARDUINO=101")
+
+# Do not use on library
+#add_definitions("-flto")
 
 # ############################################################################
 # status messages
@@ -59,7 +63,7 @@ include_directories("/usr/share/arduino/hardware/arduino/variants/standard")
 
 add_avr_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_LIB_SRC})
 
-add_avr_library(unity "${SOURCES_DIR}/third_party/unity/src/unity.c")
+add_avr_library(unity STATIC "${SOURCES_DIR}/third_party/unity/src/unity.c")
 
 file(GLOB ARDUINO_SRC_CPP
      "/usr/share/arduino/hardware/arduino/cores/arduino/*.cpp")
@@ -98,7 +102,9 @@ set_target_properties(Marker PROPERTIES LINK_FLAGS "--wrap main")
 
 foreach(test_ ${UNIT_TESTS})
   add_avr_executable(${test_}_driver ${SOURCES_DIR}/tests/${test_})
-  avr_target_link_libraries(${test_}_driver unity)
   avr_target_link_libraries(${test_}_driver ${PROJECT_NAME})
-  add_test(${test_}_driver ${test_}_driver)
+  avr_target_link_libraries(${test_}_driver unity)
+  avr_target_link_libraries(${test_}_driver m)
+  avr_target_link_libraries(${test_}_driver arduino)
+  add_test(${test_}_driver ${test_})
 endforeach() 
