@@ -3,7 +3,6 @@
 #include <api/Action.h>
 #include <api/Entity.h>
 #include <api/ITransport.h>
-#include <memory>
 
 namespace Actor {
 class Player {
