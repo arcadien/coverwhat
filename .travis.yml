@@ -1,9 +1,16 @@
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "WrE/2jfjQKTULN1wNovTqg4TfeNhKOdo0Mq4vNx31iphS6+P7b2bYQgFay+fJRNfw/Lw2scIBmZyC26Xh28lm1sh0v2Dday0xEvr5mHiIpBs7BbWEZD/o88VhZjFebI3qidz78DVvF7kOuLuQ3eXxl+jOpeyQSqqpwM4Oz/yTvhc3MNoy7H450CjrB4ncQ3GDOaCU8tB66A3hHynPyU2d6kqnOzsfQYNopy69RalpYK/q4UQUp0cHZNvI1TDTOjXeKxRtN/azDCGEKz+5om2Pc8CECw4LSZry+8211VZcsb1eJVxUKqGd5dmYsGh/bZJWJb7cqwhAojQ9xmlG7mnHsLRwN2RsDesSGjLXu/1AP1BbP0DiBPBKYgFPB/aHC63gU6OpIbqNV0C77lsLTfXNooF+nqcGQsRuSh5tYU3glg7Q1vGKJCEPO+Kp5PEXPOehBrLevMYbGYNxKvRqkAVwYYaEhOWWExPhJUgOQxSOo9WHbDGUH5H6iJV6eN4yb+Z9kgyZSRcuLtVxoxrHglN7GbmMaujrP01NeDfaTQDb4Kc3rtBL4HjhXEdwP6Qe3Q96A9yKcXrL50OF137hMeAEnOo6jTGQkradH5xId9SDMtk4/S1I/dBPeLeETFM4kWI8MoSWezDGYhoqzYW0KRN31Txs84d3iwwzHOWwfGaV/k="
+
 language: c++
 dist: bionic
 before_install:
   - sudo apt-get update
-  - sudo apt-get install -y cmake gcc-avr binutils-avr avr-libc arduino-core
+  - sudo apt-get install -y gcovr lcov cmake gcc-avr binutils-avr avr-libc arduino-core
   - pip install --user cpp-coveralls
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 jobs:
   include:
@@ -14,9 +21,9 @@ jobs:
         - mkdir build_linux
         - cd build_linux 
         - cmake  ../ -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DWITH_COVERAGE=TRUE
-        - cmake --build . && ctest --output-on-failure
+        - cmake --build . && ctest --output-on-failure && make coverage
       after_success:
-        - coveralls --exclude CMakeFiles/ --gcov-options '\-lp'
+        - coveralls --exclude CMakeFiles/ -i sources/include -e tests/ -b build_linux --gcov-options '\-lp'
     - stage: "AVR target"
       name: "AVR target"
       compiler: avr-gcc
@@ -25,3 +32,20 @@ jobs:
         - cd build_avr
         - sh ../scripts/init-avr-linux.sh ..
         - cmake --build .
+cache:
+  directories:
+    - $HOME/cache
+
+addons:
+  coverity_scan:
+    project:
+      name: "arcadien/koth"
+      description: "Open library for FPS game"
+    notification_email: aurelien.labrosse@gmail.com
+    build_command_prepend: "mkdir build_cov;  cd build_cov ; cmake  -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release .."
+    build_command: "make -j4"
+    branch_pattern: coverity_scan
+    
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+

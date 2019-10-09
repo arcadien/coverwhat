@@ -11,10 +11,6 @@ file(GLOB SIMULATOR_SRC "${SOURCES_DIR}/src/hardware/simulator/*.cpp")
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_LIB_SRC} ${SIMULATOR_SRC})
 add_library(unity STATIC "${SOURCES_DIR}/third_party/unity/src/unity.c")
 
-if(WITH_COVERAGE)
-  set(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
-  set(CMAKE_C_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
-endif()
 
 foreach(test_ ${UNIT_TESTS})
   set(THREADS_PREFER_PTHREAD_FLAG ON)
@@ -30,7 +26,11 @@ foreach(test_ ${UNIT_TESTS})
   endif()
 
   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    target_link_libraries(${test_}_driver log)
+    #target_link_libraries(${test_}_driver log)
   endif()
   add_test(${test_}_driver ${test_}_driver)
 endforeach()
+
+if(WITH_COVERAGE)
+  include(cmake/coverage.cmake)
+endif()
