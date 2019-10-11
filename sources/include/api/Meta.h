@@ -1,65 +1,17 @@
-/*
+#pragma once
 
+#include "Action.h"
+#include "Actor.h"
+#include "Entity.h"
 
-*/
-
-enum Type {
-  DAMAGE, /* lower shield or health */
-  SHIELD, /* restore or add shield  */
-  HEAL    /* restore health         */
+namespace Meta {
+struct Actions {
+  static const Action DAMAGE5;
+  static const Action HEAL5;
 };
 
-enum Amount {
-  AMOUNT_1,
-  AMOUNT_5,
-  AMOUNT_10,
-  AMOUNT_25,
-  AMOUNT_50,
-  AMOUNT_100,
-  AMOUNT_250,
-  AMOUNT_FULL
-};
-
-/*!
-
-   A Message is composed of 11 bits.
-
-     10 9 8 7     6 5 4   3 2 1    0
-   |----------- | ----- | ----- | --- |
-      source       type   amnt    sum
-
-   @since v0.1
-*/
-class EventBuilder {
-  public:
-    void SetSource(uint8_t source);
-    void SetType(Type type);
-    void SetAmount(Amount amount);
-
-    // return 16 bits where only 11 from 0
-    // are relevant
-    uint16_t Build();
-};
-
-/*!
-
-   A Message is composed of 11 bits.
-
-     10 9 8 7     6 5 4   3 2 1    0
-   |----------- | ----- | ----- | --- |
-      source       type   amnt    sum
-
-   @since v0.1
-*/
-class EventDecoder {
-  public:
-    void SetEvent(uint16_t event);
-    uint8_t GetSource();
-    Type GetType();
-    Amount GetAmount();
-    bool Check();
-};
-
-
-
-
+const Action Actions::DAMAGE5 = Action(
+    Action::Type::DAMAGE, Entity::Tag::Health, Action::Amount::AMOUNT_5, 30);
+const Action Actions::HEAL5 = Action(Action::Type::HEAL, Entity::Tag::Health,
+                                     Action::Amount::AMOUNT_5, 30);
+} // namespace Meta
