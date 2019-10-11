@@ -1,6 +1,7 @@
+#include <actors/Weapon.h>
 #include <api/Action.h>
-#include <api/ITransport.h>
 #include <api/Meta.h>
+#include <transports/Dummy.h>
 #include <unity.h>
 
 void Expect_Weapon_to_return_right_primary_action();
@@ -17,10 +18,11 @@ void tearDown() {
 void setUp() {
 }
 
-class TestWeapon : public Actor::Weapon {
+class TestWeapon : public actors::Weapon {
 public:
   TestWeapon(transport::ITransport &transport)
-      : Actor::Weapon(transport, Meta::Actions::DAMAGE5, Meta::Actions::HEAL5) {
+      : actors::Weapon(transport, Meta::Actions::DAMAGE5,
+                       Meta::Actions::HEAL5) {
   }
 };
 

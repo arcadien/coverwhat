@@ -20,8 +20,14 @@ if( EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json" )
     ${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json)
 endif()
 
-# Setup generic API
-file(GLOB ${PROJECT_NAME}_LIB_SRC "${SOURCES_DIR}/src/api/*.cpp")
+set(${PROJECT_NAME}_LIB_SRC )
+foreach(_header ${LIB_H})
+  list(APPEND ${PROJECT_NAME}_LIB_SRC "${SOURCES_DIR}/${_header}")
+endforeach()
+foreach(_source ${LIB_CPP})
+  list(APPEND ${PROJECT_NAME}_LIB_SRC "${SOURCES_DIR}/${_source}")
+endforeach()
+
 include_directories("${SOURCES_DIR}/include/")
 
 set(PLAYER_SOURCES "${SOURCES_DIR}/src/marker/Marker.cpp")
