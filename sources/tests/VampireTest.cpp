@@ -1,12 +1,10 @@
-#include <unity.h>
 
-#include <api/Action.h>
-#include <api/Actor.h>
-#include <api/Entity.h>
-#include <api/ITransport.h>
+#include <actors/Player.h>
 #include <api/Meta.h>
-
+#include <transports/Dummy.h>
 #include <weapons/Vampire.h>
+
+#include <unity.h>
 
 void Expect_Vampire_to_damage_target_user_when_using_vampire_primary_action();
 void Expect_Vampire_to_heal_target_user_when_using_vampire_secondary_action();
@@ -27,7 +25,7 @@ void setUp() {
 void Expect_Vampire_to_damage_target_user_when_using_vampire_primary_action() {
   transport::Dummy dummyTransport;
   Weapons::Vampire vampire(dummyTransport);
-  Actor::Player target;
+  actors::Player target;
   auto action = vampire.GetPrimary();
   target.SetEntityValue(Entity::Tag::Health, 10);
   target.Accept(action);
@@ -39,7 +37,7 @@ void Expect_Vampire_to_heal_target_user_when_using_vampire_secondary_action() {
   transport::Dummy dummyTransport;
   Weapons::Vampire vampire(dummyTransport);
   Entity health(Entity::Tag::Health, 1);
-  Actor::Player target;
+  actors::Player target;
   auto action = vampire.GetSecondary();
   target.SetEntityValue(Entity::Tag::Health, 10);
   target.Accept(action);

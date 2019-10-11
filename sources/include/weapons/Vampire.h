@@ -1,12 +1,13 @@
-#include <api/Actor.h>
+#include <actors/Weapon.h>
 #include <api/ITransport.h>
 #include <api/Meta.h>
 namespace Weapons {
 
-class Vampire : public Actor::Weapon {
+class Vampire : public actors::Weapon {
 public:
   Vampire(transport::ITransport &transport)
-      : Actor::Weapon(transport, Meta::Actions::DAMAGE5, Meta::Actions::HEAL5) {
+      : actors::Weapon(transport, Meta::Actions::DAMAGE5,
+                       Meta::Actions::HEAL5) {
   }
 };
 
