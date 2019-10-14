@@ -14,14 +14,14 @@
 /**
  * A Action represent an atomic intent of alteration for an Actor Entity
  *
- * Ex. A damage action may target a 'health' entity, for a value of 24.
+ * Ex. A damage Action may target a 'health' Entity, for a value of 24.
  *
- * Sometimes an action cannot be repeated instantly. The delay between each
+ * Sometimes an Action cannot be repeated instantly. The delay between each
  * action trigger is called 'cooldown' and is expressed as a duration in
  * milliseconds.
  */
 class Action {
- public:
+public:
   /*
    * Initial value which can take an Action
    *
@@ -45,31 +45,36 @@ class Action {
 
   Action(Type const &type, Entity::Tag const &entityTag, Amount const &amount,
          uint8_t cooldown)
-      : _type(type),
-        _entityTag(entityTag),
-        _amount(amount),
-        _coolDown(cooldown) {}
+      : _type(type), _entityTag(entityTag), _amount(amount),
+        _coolDown(cooldown) {
+  }
 
-  Entity::Tag const &GetTargetEntityTag() const { return _entityTag; }
+  Entity::Tag const &GetTargetEntityTag() const {
+    return _entityTag;
+  }
 
-  Amount GetAmount() const { return _amount; }
+  Amount GetAmount() const {
+    return _amount;
+  }
 
-  uint8_t GetCoolDownMs() const { return _coolDown; }
+  uint8_t GetCoolDownMs() const {
+    return _coolDown;
+  }
 
   uint16_t Process(uint16_t currentValue) const {
     uint16_t result = currentValue;
     switch (_type) {
-      case (DAMAGE):
-        result -= (uint16_t)_amount;
-        break;
-      case (HEAL):
-        result += (uint16_t)_amount;
-        break;
+    case (DAMAGE):
+      result -= (uint16_t)_amount;
+      break;
+    case (HEAL):
+      result += (uint16_t)_amount;
+      break;
     }
     return result;
   }
 
- private:
+private:
   Type _type;
   Entity::Tag const &_entityTag;
   Amount _amount;

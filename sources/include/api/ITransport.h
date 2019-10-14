@@ -3,6 +3,13 @@
 class Action;
 
 namespace transport {
+
+/*!
+ * Defines the interface needed to transmit and receive \ref Action
+ *
+ *
+ *
+ */
 class ITransport {
 public:
   virtual ~ITransport() = default;
