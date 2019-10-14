@@ -4,7 +4,13 @@
 #include "Actor.h"
 #include "Entity.h"
 
+/*!
+ * Meta namespace contain information shared across concepts (eg. Player,
+ * Weapon) which are not necessarily implemented as the same place, but have to
+ * exchange the only needed information.
+ */
 namespace Meta {
+
 struct Actions {
   static const Action DAMAGE5;
   static const Action HEAL5;

@@ -5,7 +5,7 @@ class Action;
 namespace transport {
 
 /*!
- * Defines the interface needed to transmit and receive \ref Action
+ * Defines interface needed to transmit and receive \ref Action
  *
  *
  *
@@ -14,6 +14,9 @@ class ITransport {
 public:
   virtual ~ITransport() = default;
 
+  /*!
+   * Push an Action to send in the ITransport implementation queue
+   */
   virtual void Queue(Action const &action) = 0;
 };
 
