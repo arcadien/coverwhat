@@ -2,7 +2,7 @@
 
 #include <hardware/avr/Atmega328p.h>
 
-using HardwareType = hardware::ATMega328;
+using HardwareType = hardware::Atmega328p;
 
 void setUp(void) {
 }
