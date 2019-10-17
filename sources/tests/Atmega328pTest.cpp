@@ -1,6 +1,6 @@
 #include <unity.h>
 
-#include <hardware/avr/atmega328p.h>
+#include <hardware/avr/Atmega328p.h>
 
 #include <chrono>
 #include <iostream>

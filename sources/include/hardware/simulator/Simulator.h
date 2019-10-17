@@ -4,8 +4,8 @@
 #include <api/IHardware.h>
 
 #include <memory>
-#include <thread>
 #include <mutex>
+#include <thread>
 
 namespace hardware {
 /*
@@ -16,8 +16,8 @@ namespace hardware {
  */
 class Simulator : public IHardware {
 public:
-  
-  Simulator() : _epoch(0), _stop(false){}
+  Simulator() : _epoch(0), _stop(false) {
+  }
 
   void sleepMs(uint8_t ms) override;
   void Setup() override;
