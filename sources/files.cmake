@@ -5,6 +5,10 @@ set(UNIT_TESTS
   WeaponTest.cpp 
   VampireTest.cpp)
 
+if(AVR)
+  list(APPEND UNIT_TESTS Atmega328pTest.cpp)
+endif()
+
 if(NOT AVR)
   list(APPEND UNIT_TESTS SimulatorTest.cpp)
 endif()

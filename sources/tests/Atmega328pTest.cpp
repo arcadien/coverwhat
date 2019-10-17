@@ -1,13 +1,8 @@
 #include <unity.h>
 
-#include <hardware/simulator/Simulator.h>
-#include <iostream>
-#define PRINT(c) std::cout << c;
+#include <hardware/avr/Atmega328p.h>
 
-#include <chrono>
-#include <iostream>
-
-using HardwareType = hardware::Simulator;
+using HardwareType = hardware::Atmega328p;
 
 void setUp(void) {
 }
@@ -26,25 +21,24 @@ void Expect_hardware_to_be_clocked() {
     }
   };
   TestHw hw;
-
   hw.Setup();
   hw.sleepMs(250);
   hw.Stop();
-
   TEST_ASSERT(hw.tickCount > 25);
 }
 
 void Expect_hardware_to_be_able_to_sleep_for_some_ms() {
   HardwareType hw;
-
   hw.Setup();
+
   unsigned long begin;
   unsigned long end;
+
   begin = hw.Millis();
   hw.sleepMs(250);
   end = hw.Millis();
+
   int elapsed_ms = end - begin;
-  hw.Stop();
 
   // sometimes rounding leads to 251ms so
   // add a little tolerance here
