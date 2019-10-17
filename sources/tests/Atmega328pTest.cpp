@@ -2,9 +2,6 @@
 
 #include <hardware/avr/Atmega328p.h>
 
-#include <chrono>
-#include <iostream>
-
 using HardwareType = hardware::ATMega328;
 
 void setUp(void) {
