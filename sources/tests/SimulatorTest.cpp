@@ -16,37 +16,42 @@ using HardwareType = hardware::ATMega328;
 #include <chrono>
 #include <iostream>
 
-void setUp(void) {}
+void setUp(void) {
+}
 
-void tearDown(void) {}
+void tearDown(void) {
+}
 
 void Expect_hardware_to_be_clocked() {
   // extended Simulator class which
   // count the ticks
   class TestHw : public HardwareType {
-   public:
+  public:
     int tickCount = 0;
-    void OnTick() { tickCount++; }
+    void OnTick() {
+      tickCount++;
+    }
   };
   TestHw hw;
+
   hw.Setup();
   hw.sleepMs(250);
   hw.Stop();
+
   TEST_ASSERT(hw.tickCount > 25);
 }
 
 void Expect_hardware_to_be_able_to_sleep_for_some_ms() {
   HardwareType hw;
-  hw.Setup();
 
+  hw.Setup();
   unsigned long begin;
   unsigned long end;
-
   begin = hw.Millis();
   hw.sleepMs(250);
   end = hw.Millis();
-
   int elapsed_ms = end - begin;
+  hw.Stop();
 
   // sometimes rounding leads to 251ms so
   // add a little tolerance here
