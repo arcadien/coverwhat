@@ -52,14 +52,15 @@ elseif(CMAKE_COMPILER_IS_GNUCXX)
   if(NOT GCOVR_PATH)
     message(FATAL_ERROR "gcovr not found! Aborting...")
   endif()
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage -fprofile-arcs -ftest-coverage")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -fprofile-arcs -ftest-coverage")
+  set(NO_INLINE "-fno-inline -fno-inline-small-functions -fno-default-inline")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage -fprofile-arcs -ftest-coverage ${NO_INLINE}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -fprofile-arcs -ftest-coverage ${NO_INLINE}")
 
   set(GCOVR_EXCLUSIONS  "--gcov-exclude '.*test.*' --gcov-exclude '.*third_party.*'")
 
    add_custom_command(OUTPUT _ctest
      POST_BUILD
-     COMMAND ctest
+     COMMAND ctest --output-on-failure
     )
    add_custom_command(OUTPUT _run_gcovr_parser
      POST_BUILD
