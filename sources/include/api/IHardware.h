@@ -9,7 +9,6 @@ namespace hardware {
  */
 class IHardware {
  public:
-  IHardware() noexcept;
   virtual ~IHardware() = default;
 
   /*

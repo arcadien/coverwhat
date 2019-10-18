@@ -3,11 +3,46 @@
 
 #include <api/IHardware.h>
 
+#include <chrono>
+#include <future>
 #include <memory>
 #include <mutex>
 #include <thread>
 
 namespace hardware {
+
+class Timer {
+  bool clear = false;
+
+ public:
+  template <typename Function>
+  void setTimeout(Function function, int delay) {
+    this->clear = false;
+    std::thread t([=]() {
+      if (this->clear) return;
+      std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+      if (this->clear) return;
+      function();
+    });
+    t.detach();
+  }
+
+  template <typename Function>
+  void setInterval(Function function, int interval) {
+    this->clear = false;
+    std::thread t([=]() {
+      while (true) {
+        if (this->clear) return;
+        std::this_thread::sleep_for(std::chrono::milliseconds(interval));
+        if (this->clear) return;
+        function();
+      }
+    });
+    t.detach();
+  }
+  void stop() { this->clear = true; }
+};
+
 /*
  * This class implement a simulated hardware which run on a regular PC
  *
@@ -18,7 +53,6 @@ class Simulator : public IHardware {
  public:
   Simulator()
       : _epoch(0),
-        _stop(false),
         _primaryActionExecutionCount(0),
         _secondaryActionExecutionCount(0) {}
 
@@ -46,10 +80,11 @@ class Simulator : public IHardware {
   void TriggerSecondaryAction();
 
  private:
+  hardware::Timer _clock;
   std::shared_ptr<std::thread> _millisCounter;
   long long _epoch;
-  bool _stop;
   long _primaryActionExecutionCount;
   long _secondaryActionExecutionCount;
+  std::mutex _mutex;
 };
 }  // namespace hardware

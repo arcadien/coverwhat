@@ -32,7 +32,7 @@ void Expect_hardware_to_be_clocked() {
   // count the ticks
   class TestHw : public HardwareType {
    public:
-    int tickCount = 0;
+    volatile int tickCount = 0;
     void OnTick() { tickCount++; }
   };
   TestHw hw;

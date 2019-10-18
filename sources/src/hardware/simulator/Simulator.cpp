@@ -3,6 +3,7 @@
 #include <thread>
 
 #include <chrono>
+#include <mutex>
 
 namespace hardware {
 void Simulator::sleepMs(uint8_t ms) {
@@ -10,7 +11,7 @@ void Simulator::sleepMs(uint8_t ms) {
   std::this_thread::sleep_for(duration);
 }
 
-void Simulator::Stop() { _stop = true; }
+void Simulator::Stop() { _clock.stop(); }
 
 void Simulator::Setup() {
   _primaryActionExecutionCount = 0;
@@ -19,14 +20,12 @@ void Simulator::Setup() {
   _epoch = std::chrono::system_clock::now().time_since_epoch() /
            std::chrono::milliseconds(1);
 
-  auto ClockFunction = [this]() {
-    while (!_stop) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
-      OnTick();
-    }
-  };
-  std::thread t(ClockFunction);
-  t.detach();
+  _clock.setInterval(
+      [this]() {
+        std::lock_guard<std::mutex> guard(_mutex);
+        OnTick();
+      },
+      10);
 }
 
 /*
