@@ -3,6 +3,7 @@ set(UNIT_TESTS
   ActionTest.cpp 
   SoftwareTransportTest.cpp 
   WeaponTest.cpp 
+  DummyTransportTest.cpp
   VampireTest.cpp)
 
 if(AVR)
