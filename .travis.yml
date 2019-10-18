@@ -9,7 +9,6 @@ dist: bionic
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y gcovr lcov cmake gcc-avr binutils-avr avr-libc arduino-core
-  - pip install --user cpp-coveralls
   - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 jobs:
@@ -24,7 +23,6 @@ jobs:
         - cmake --build . && ctest --output-on-failure && make coverage_cobertura
         - mv coverage*.xml ..
       after_success:
-        - coveralls --exclude CMakeFiles/ -i sources/include -e tests/ -b build_linux --gcov-options '\-lp'
         - bash <(curl -s https://codecov.io/bash)
     - stage: "AVR target"
       name: "AVR target"
