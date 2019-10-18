@@ -1,5 +1,6 @@
 
 set(UNIT_TESTS 
+  EntityTest.cpp
   ActionTest.cpp 
   SoftwareTransportTest.cpp 
   WeaponTest.cpp 
