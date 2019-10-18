@@ -19,9 +19,8 @@ jobs:
       script:
         - mkdir build_linux
         - cd build_linux 
-        - cmake  ../ -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DWITH_COVERAGE=TRUE
-        - cmake --build . && ctest --output-on-failure && make coverage_cobertura
-        - mv coverage*.xml ..
+        - cmake  ../ -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DWITH_COVERAGE=TRUE
+        - make -j4 && make coverage
       after_success:
         - bash <(curl -s https://codecov.io/bash)
     - stage: "AVR target"
