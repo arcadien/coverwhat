@@ -24,7 +24,6 @@ set(LIB_H
   ./include/api/ITransport.h
   ./include/actors/Player.h
   ./include/actors/Weapon.h
-  ./include/transports/Software.h
   ./include/transports/Dummy.h
   ./include/weapons/Vampire.h
 )
@@ -34,16 +33,17 @@ set(LIB_CPP
   ./src/api/Actor.cpp
   ./src/api/ITransport.cpp
   ./src/weapons/Vampire.cpp
-  ./src/transports/Software.cpp
 )
 
 if(NOT AVR)
   list(APPEND LIB_CPP
     ./src/hardware/simulator/Simulator.cpp
+    ./src/transports/Software.cpp
   )
 
   list(APPEND LIB_H
     ./include/hardware/simulator/Simulator.h
+    ./include/transports/Software.h
   )
 endif()
 
