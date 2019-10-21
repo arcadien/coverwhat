@@ -84,6 +84,10 @@ avr_target_link_libraries(lowpower arduino)
 file(GLOB IREMOTE_SRC "${SOURCES_DIR}/third_party/iremote/*.cpp")
 add_avr_library(iremote STATIC ${IREMOTE_SRC})
 avr_target_link_libraries(iremote arduino)
+
+set(PLAYER_SOURCES "${SOURCES_DIR}/src/marker/Marker.cpp")
+set(MARKER_SOURCES "${SOURCES_DIR}/src/player/PlayerAvr.cpp")
+
 add_avr_executable(Player ${PLAYER_SOURCES})
 add_avr_executable(Marker ${MARKER_SOURCES})
 

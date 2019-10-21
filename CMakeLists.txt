@@ -30,8 +30,6 @@ endforeach()
 
 include_directories("${SOURCES_DIR}/include/")
 
-set(PLAYER_SOURCES "${SOURCES_DIR}/src/marker/Marker.cpp")
-set(MARKER_SOURCES "${SOURCES_DIR}/src/player/Player.cpp")
 
 include_directories("${SOURCES_DIR}/third_party/unity/src/")
 
