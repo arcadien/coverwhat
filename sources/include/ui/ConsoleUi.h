@@ -29,7 +29,7 @@ class ConsoleUi : public Ui::IUi {
             _available = true;
           }
         },
-        1000);
+        30);
   }
 
   ~ConsoleUi() { _inputReader.Stop(); }

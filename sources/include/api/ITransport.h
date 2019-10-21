@@ -11,13 +11,17 @@ namespace transport {
  *
  */
 class ITransport {
-public:
+ public:
   virtual ~ITransport() = default;
 
   /*!
    * Push an Action to send in the ITransport implementation queue
    */
-  virtual void Queue(Action const &action) = 0;
+  virtual void Queue(Action const& action) = 0;
+
+  virtual bool ActionAvailable() = 0;
+
+  virtual Action const& GetAction() = 0;
 };
 
-} // namespace transport
+}  // namespace transport

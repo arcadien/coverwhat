@@ -11,7 +11,7 @@ void Simulator::sleepMs(uint8_t ms) {
   std::this_thread::sleep_for(duration);
 }
 
-void Simulator::Stop() { _clock.stop(); }
+void Simulator::Stop() { _clock.Stop(); }
 
 void Simulator::Setup() {
   _primaryActionExecutionCount = 0;
@@ -20,7 +20,7 @@ void Simulator::Setup() {
   _epoch = std::chrono::system_clock::now().time_since_epoch() /
            std::chrono::milliseconds(1);
 
-  _clock.setInterval(
+  _clock.SetInterval(
       [this]() {
         std::lock_guard<std::mutex> guard(_mutex);
         OnTick();

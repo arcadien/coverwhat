@@ -2,6 +2,7 @@
 #pragma once
 
 #include <api/IHardware.h>
+#include <tools/Timer.h>
 
 #include <chrono>
 #include <future>
@@ -10,38 +11,6 @@
 #include <thread>
 
 namespace hardware {
-
-class Timer {
-  bool clear = false;
-
- public:
-  template <typename Function>
-  void setTimeout(Function function, int delay) {
-    this->clear = false;
-    std::thread t([=]() {
-      if (this->clear) return;
-      std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-      if (this->clear) return;
-      function();
-    });
-    t.detach();
-  }
-
-  template <typename Function>
-  void setInterval(Function function, int interval) {
-    this->clear = false;
-    std::thread t([=]() {
-      while (true) {
-        if (this->clear) return;
-        std::this_thread::sleep_for(std::chrono::milliseconds(interval));
-        if (this->clear) return;
-        function();
-      }
-    });
-    t.detach();
-  }
-  void stop() { this->clear = true; }
-};
 
 /*
  * This class implement a simulated hardware which run on a regular PC
@@ -63,6 +32,9 @@ class Simulator : public IHardware {
   void OnSecondaryAction() override;
   void OnTick() override;
   void Stop() override;
+  void WaitForEvent() override {
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  }
 
   /*!
    * How many times the primary action has been
@@ -80,7 +52,7 @@ class Simulator : public IHardware {
   void TriggerSecondaryAction();
 
  private:
-  hardware::Timer _clock;
+  tools::Timer _clock;
   std::shared_ptr<std::thread> _millisCounter;
   long long _epoch;
   long _primaryActionExecutionCount;

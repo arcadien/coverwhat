@@ -6,18 +6,20 @@
 void Expect_Action_to_use_provided_coolDown();
 void Expect_Action_to_use_provided_entityTag();
 void Expect_Action_to_use_provided_value();
+void Expect_default_Action_to_be_creatable();
 
 int main(int, char **) {
   UNITY_BEGIN();
   RUN_TEST(Expect_Action_to_use_provided_entityTag);
   RUN_TEST(Expect_Action_to_use_provided_value);
   RUN_TEST(Expect_Action_to_use_provided_coolDown);
+  RUN_TEST(Expect_default_Action_to_be_creatable);
   return UNITY_END();
 }
-void tearDown() {
-}
-void setUp() {
-}
+void tearDown() {}
+void setUp() {}
+
+void Expect_default_Action_to_be_creatable() { Action action; }
 
 void Expect_Action_to_use_provided_coolDown() {
   const uint8_t expectedCoolDown = 30;

@@ -41,5 +41,13 @@ class IHardware {
    *
    */
   virtual void OnTick() = 0;
+
+  /*!
+   * Hardware comes here at the end of event loop.
+   * This is the place to implement a busy-wait delay
+   * or a sleep mode, if an interrupt is likely to wake the
+   * hardware up
+   */
+  virtual void WaitForEvent() = 0;
 };
 }  // namespace hardware
