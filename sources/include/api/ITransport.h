@@ -21,7 +21,7 @@ class ITransport {
 
   virtual bool ActionAvailable() = 0;
 
-  virtual Action const& GetAction() = 0;
+  virtual const Action GetAction() = 0;
 };
 
 }  // namespace transport
