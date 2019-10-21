@@ -41,6 +41,12 @@ class Action {
 
   enum Type { DAMAGE, HEAL, STUN, RESURRECT, NONE };
 
+  Action()
+      : _type(Type::NONE),
+        _entityTag(Entity::Tag::None),
+        _amount(Action::Amount::AMOUNT_0),
+        _coolDown(0) {}
+
   Action(Type const &type, Entity::Tag const &entityTag, Amount const &amount,
          uint8_t cooldown)
       : _type(type),
