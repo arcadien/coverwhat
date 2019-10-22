@@ -1,6 +1,6 @@
 # Changelog
 
-## API 1.0
+## M0 - API 1.0
 First version of the API allow to model two players with their weapons.
 Testing harness allow to test API using a simulated hardware on a Linux platform.
 Implementes concepts are:

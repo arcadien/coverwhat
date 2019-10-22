@@ -9,9 +9,9 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_definitions("-pedantic")
 
-include(sources/files.cmake)
+include(software/files.cmake)
 
-set(SOURCES_DIR "${CMAKE_SOURCE_DIR}/sources")
+set(SOURCES_DIR "${CMAKE_SOURCE_DIR}/software")
 
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON ) 
 if( EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json" )
@@ -37,7 +37,7 @@ include(CTest)
 enable_testing()
 
 if(AVR)
-  include(cmake/avr.cmake)
+  include(tools/cmake/avr.cmake)
 else()
-  include(cmake/pc.cmake)
+  include(tools/cmake/pc.cmake)
 endif()
