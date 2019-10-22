@@ -29,7 +29,7 @@ jobs:
       script:
         - mkdir build_avr
         - cd build_avr
-        - sh ../scripts/init-avr-linux.sh ..
+        - sh ../tools/scripts/init-avr-linux.sh ..
         - cmake --build .
       after_success:
         - bash <(curl -s https://codecov.io/bash)

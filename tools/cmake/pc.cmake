@@ -32,5 +32,5 @@ foreach(test_ ${UNIT_TESTS})
 endforeach()
 
 if(WITH_COVERAGE)
-  include(cmake/coverage.cmake)
+  include(tools/cmake/coverage.cmake)
 endif()
