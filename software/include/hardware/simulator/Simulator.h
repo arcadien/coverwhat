@@ -32,9 +32,7 @@ class Simulator : public IHardware {
   void OnSecondaryAction() override;
   void OnTick() override;
   void Stop() override;
-  void WaitForEvent() override {
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
-  }
+  void WaitForEvent() override;
 
   /*!
    * How many times the primary action has been

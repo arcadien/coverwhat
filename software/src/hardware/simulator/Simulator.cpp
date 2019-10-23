@@ -11,6 +11,10 @@ void Simulator::sleepMs(uint8_t ms) {
   std::this_thread::sleep_for(duration);
 }
 
+void Simulator::WaitForEvent() {
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
+}
+
 void Simulator::Stop() { _clock.Stop(); }
 
 void Simulator::Setup() {
