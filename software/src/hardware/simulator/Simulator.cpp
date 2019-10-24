@@ -6,30 +6,59 @@
 #include <mutex>
 
 namespace hardware {
-void Simulator::sleepMs(uint8_t ms) {
+
+Simulator::Simulator(unsigned long initialMillis)
+    : _millis(initialMillis),
+      _primaryActionExecutionCount(0),
+      _secondaryActionExecutionCount(0) {
+  Setup();
+}
+
+Simulator::~Simulator() { Stop(); }
+
+void Simulator::sleepMs(uint16_t ms) {
   auto duration = std::chrono::milliseconds(ms);
   std::this_thread::sleep_for(duration);
 }
 
 void Simulator::WaitForEvent() {
-  std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  std::this_thread::sleep_for(std::chrono::milliseconds(2 * TICK_INTERVAL_MS));
 }
 
-void Simulator::Stop() { _clock.Stop(); }
+void Simulator::Stop() {
+  _millisClock.Stop();
+  _tickClock.Stop();
+  // wait for thread to actually stop, wait
+  // for tick duration at least so that Timer loop
+  // will end
+  auto delay = std::chrono::milliseconds(TICK_INTERVAL_MS);
+  std::this_thread::sleep_for(delay);
+}
 
 void Simulator::Setup() {
   _primaryActionExecutionCount = 0;
   _secondaryActionExecutionCount = 0;
 
-  _epoch = std::chrono::system_clock::now().time_since_epoch() /
-           std::chrono::milliseconds(1);
-
-  _clock.SetInterval(
-      [this]() {
-        std::lock_guard<std::mutex> guard(_mutex);
-        OnTick();
+  _millisClock.SetInterval(
+      [=]() {
+        static const unsigned long max =
+            std::numeric_limits<unsigned long>::max();
+        if (_millis < max) {
+          std::lock_guard<std::mutex> guard(_millisMutex);
+          ++_millis;
+        } else {
+          std::lock_guard<std::mutex> guard(_millisMutex);
+          _millis = 0;
+        }
       },
-      10);
+      1);
+
+  _tickClock.SetInterval(
+      [=]() {
+        std::lock_guard<std::mutex> guard(_tickMutex);
+        this->OnTick();
+      },
+      TICK_INTERVAL_MS);
 }
 
 /*
@@ -41,20 +70,8 @@ void Simulator::Setup() {
  */
 unsigned long Simulator::Millis() {
   unsigned long result;
-
-  unsigned long long milliseconds_since_epoch =
-      std::chrono::system_clock::now().time_since_epoch() /
-      std::chrono::milliseconds(1);
-
-  unsigned long long elapsed = milliseconds_since_epoch - _epoch;
-
-  if (elapsed >= std::numeric_limits<unsigned long>::max()) {
-    _epoch = milliseconds_since_epoch;
-    result = 0;
-  } else {
-    result = static_cast<unsigned long>(milliseconds_since_epoch);
-  }
-  return result;
+  std::lock_guard<std::mutex> guard(_millisMutex);
+  return _millis;
 }
 
 long Simulator::PrimaryActionCount() { return _primaryActionExecutionCount; }

@@ -20,18 +20,17 @@ namespace hardware {
  */
 class Simulator : public IHardware {
  public:
-  Simulator()
-      : _epoch(0),
-        _primaryActionExecutionCount(0),
-        _secondaryActionExecutionCount(0) {}
+  static const int TICK_INTERVAL_MS = 10;
 
-  void sleepMs(uint8_t ms) override;
+  Simulator(unsigned long initialMillis = 0);
+  virtual ~Simulator();
+  void sleepMs(uint16_t ms) override;
   void Setup() override;
   unsigned long Millis() override;
   void OnPrimaryAction() override;
   void OnSecondaryAction() override;
-  void OnTick() override;
   void Stop() override;
+  virtual void OnTick() override;
   void WaitForEvent() override;
 
   /*!
@@ -50,11 +49,12 @@ class Simulator : public IHardware {
   void TriggerSecondaryAction();
 
  private:
-  tools::Timer _clock;
-  std::shared_ptr<std::thread> _millisCounter;
-  long long _epoch;
+  tools::Timer _millisClock;
+  tools::Timer _tickClock;
+  unsigned long _millis;
   long _primaryActionExecutionCount;
   long _secondaryActionExecutionCount;
-  std::mutex _mutex;
+  std::mutex _tickMutex;
+  std::mutex _millisMutex;
 };
 }  // namespace hardware

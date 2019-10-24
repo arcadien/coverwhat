@@ -14,7 +14,7 @@ class IHardware {
   /*
    * Blocking call: during the sleep time, nothing but interrupt can occur
    */
-  virtual void sleepMs(uint8_t ms) = 0;
+  virtual void sleepMs(uint16_t ms) = 0;
 
   virtual void Stop() = 0;
 
