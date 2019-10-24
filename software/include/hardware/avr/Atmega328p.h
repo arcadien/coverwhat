@@ -10,7 +10,7 @@ namespace hardware {
  */
 class Atmega328p : public IHardware {
  public:
-  void sleepMs(uint8_t ms) override {}
+  void sleepMs(uint16_t ms) override {}
   void Setup() override {}
   unsigned long Millis() override { return 0; }
   void OnPrimaryAction() override {}

@@ -20,8 +20,6 @@ namespace hardware {
  */
 class Simulator : public IHardware {
  public:
-  static const int TICK_INTERVAL_MS = 10;
-
   Simulator(unsigned long initialMillis = 0);
   virtual ~Simulator();
   void sleepMs(uint16_t ms) override;

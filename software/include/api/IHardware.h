@@ -9,6 +9,8 @@ namespace hardware {
  */
 class IHardware {
  public:
+  static const int TICK_INTERVAL_MS = 10;
+
   virtual ~IHardware() = default;
 
   /*
