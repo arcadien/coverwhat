@@ -39,7 +39,7 @@ class Action {
     AMOUNT_FULL = 255
   };
 
-  enum Type { DAMAGE, HEAL, STUN, RESURRECT, NONE };
+  enum Type { DAMAGE, HEAL, /* STUN,*/ RESURRECT, NONE };
 
   Action()
       : _type(Type::NONE),
@@ -70,7 +70,6 @@ class Action {
         result += (uint16_t)_amount;
         break;
       case (RESURRECT):
-      case (STUN):
       case (NONE):
         break;
     }
