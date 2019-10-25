@@ -26,7 +26,8 @@ set(UNIT_TESTS
   SoftwareTransportTest.cpp 
   WeaponTest.cpp 
   DummyTransportTest.cpp
-  VampireTest.cpp)
+  VampireTest.cpp
+  RGBColorTest.cpp)
 
 if(AVR)
   list(APPEND UNIT_TESTS Atmega328pTest.cpp)
