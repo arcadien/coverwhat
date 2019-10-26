@@ -1,11 +1,9 @@
 #pragma once
 
-#include <string>
-
 class Action;
 class Entity;
 
-namespace Ui {
+namespace ui {
 
 class IUi {
  public:
@@ -13,7 +11,7 @@ class IUi {
   virtual Action GetAction() const = 0;
   virtual void DisplayDied() const = 0;
   virtual void Display(Entity const& entity) const = 0;
-  virtual void Print(std::string const& message) const = 0;
+  virtual void Print(char const* message) const = 0;
 };
 
-}  // namespace Ui
+}  // namespace ui

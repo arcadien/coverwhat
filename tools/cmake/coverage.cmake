@@ -71,8 +71,8 @@ elseif(CMAKE_COMPILER_IS_GNUCXX)
 
    add_custom_command(OUTPUT _run_gcovr_parser_html
      POST_BUILD
-     COMMAND ${GCOVR_PATH} -r ${SOURCES_DIR} --html --html-details -o coverage.html         --object-dir=${CMAKE_BINARY_DIR} --gcov-exclude '.*test.*' --gcov-exclude '.*third_party.*'
      COMMAND ${GCOVR_PATH} -r ${SOURCES_DIR} --html --html-details -o branche-coverage.html --object-dir=${CMAKE_BINARY_DIR} --gcov-exclude '.*test.*' --gcov-exclude '.*third_party.*'
+     COMMAND ${GCOVR_PATH} -r ${SOURCES_DIR} --html --html-details -o coverage.html         --object-dir=${CMAKE_BINARY_DIR} --gcov-exclude '.*test.*' --gcov-exclude '.*third_party.*'
      WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
    add_custom_target (coverage_html DEPENDS _ctest _run_gcovr_parser_html)
 

@@ -10,11 +10,12 @@
 #include <mutex>
 #include <thread>
 
+namespace ui {
 /*!
  * Implementation for interaction with system stream `cout` and `cin`
  *
  */
-class ConsoleUi : public Ui::IUi {
+class ConsoleUi : public IUi {
  public:
   ConsoleUi() : _available(false) {
     _inputReader.SetInterval(
@@ -45,7 +46,7 @@ class ConsoleUi : public Ui::IUi {
     std::cout << entity.GetValue() << std::endl;
   }
 
-  void Print(std::string const &message) const override {
+  void Print(char const *message) const override {
     std::cout << message << std::endl;
   }
 
@@ -101,3 +102,4 @@ class ConsoleUi : public Ui::IUi {
   mutable bool _available;
   Action _actionQueue[1];
 };
+}  // namespace ui

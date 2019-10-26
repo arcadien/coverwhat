@@ -5,6 +5,7 @@
 #include <IRremote.h>
 
 #include <tools/RGBColor.h>
+#include <ui/BluetoothElectronicUi.h>
 
 //------------------------------------------------------------------------------
 // Tell IRremote which Arduino pin is connected to the IR Receiver (TSOP4838)
@@ -17,12 +18,14 @@ IRsend irsend;
 // Configure the Arduino
 //
 
+ui::BluetoothElectronicUi userInterface(57600);
+
 int health;
 int livesCounter;
 int ammo;
 RGBColor rgbColor;
 
-char* heroes[] = {"dps", "tank", "healer", "sniper"};
+const char* heroes[] = {"dps", "tank", "healer", "sniper"};
 uint8_t heroIndex;
 
 int hue;
@@ -31,48 +34,6 @@ int saturation;
 int ledPinR = 5;
 int ledPinG = 6;
 int ledPinB = 9;
-
-void panel() {
-  Serial.println("*.kwl");
-  Serial.println("clear_panel()");
-  Serial.print("set_grid_size(10,5)");
-  Serial.println("");
-  Serial.print("add_text(0,0,large,L");
-  Serial.print(",Health,245,240,245,");
-  Serial.println(")");
-  Serial.print("add_text(0,4,large,L");
-  Serial.print(",Hero,245,240,245,)");
-  Serial.println("");
-  Serial.print("add_text(0,1,large,L");
-  Serial.print(",Ammo,245,240,245,)");
-  Serial.println("");
-  Serial.print("add_text(0,3,large,L");
-  Serial.print(",Spawns,245,240,245,");
-  Serial.println(")");
-  Serial.print("add_text_box(2,3,1,L");
-  Serial.print(",\"\\n \",245,240,245,S");
-  Serial.println(")");
-  Serial.print("add_text_box(2,4,4,L");
-  Serial.println(",,245,240,245,E)");
-  Serial.print("add_button(6,4,9,C,c");
-  Serial.println(")");
-  Serial.print("add_button(8,3,29,R,");
-  Serial.println("r)");
-  Serial.print("add_gauge(2,0,4,0,50");
-  Serial.println("0,0,L,,l,5,0)");
-  Serial.print("add_gauge(2,1,5,0,10");
-  Serial.println("0,100,A,,,10,10)");
-  Serial.print("add_buzzer(9,0,1,D,a");
-  Serial.println(",true,100.00)");
-  Serial.print("add_buzzer(9,1,1,H,b");
-  Serial.println(",false,100.00)");
-  Serial.print("add_buzzer(9,2,1,M,c");
-  Serial.println(",false,100.00)");
-  Serial.print("set_panel_notes(,,,)");
-  Serial.println("");
-  Serial.println("run()");
-  Serial.println("*");
-}
 
 void postColors(RGBColor const& rgb_color) {
   // 0 is max value for RGB leds
@@ -84,9 +45,6 @@ void postColors(RGBColor const& rgb_color) {
 }
 
 void setup() {
-  Serial.begin(57600);
-
-  panel();
   heroIndex = 0;
   livesCounter = 1;
   health = 500;
