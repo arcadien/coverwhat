@@ -1,3 +1,7 @@
+
+#if not defined(AVR)
+#define UNITY_OUTPUT_COLOR
+#endif
 #include <unity.h>
 
 #include <hardware/avr/Atmega328p.h>
@@ -33,7 +37,6 @@ void Expect_atmega328p_millis_to_not_overflow_in_normal_condition() {
   unsigned long iMustBeAround100 = hw.Millis();
   TEST_ASSERT_INT_WITHIN(10, 100, iMustBeAround100);
 }
-
 void Expect_atmega328p_to_be_clocked() {
   // extended Simulator class which
   // count the ticks

@@ -3,6 +3,9 @@
 #include <transports/Software.h>
 #include <weapons/Vampire.h>
 
+#if not defined(AVR)
+#define UNITY_OUTPUT_COLOR
+#endif
 #include <unity.h>
 
 void Expect_action_to_be_sent_to_right_target();
@@ -13,10 +16,8 @@ int main(int, char **) {
   return UNITY_END();
 }
 
-void tearDown() {
-}
-void setUp() {
-}
+void tearDown() {}
+void setUp() {}
 
 void Expect_action_to_be_sent_to_right_target() {
   // Objective is:

@@ -1,10 +1,13 @@
-#include <unity.h>
-
 #include <hardware/simulator/Simulator.h>
 
 #include <chrono>
 #include <iostream>
 #include <numeric>
+
+#if not defined(AVR)
+#define UNITY_OUTPUT_COLOR
+#endif
+#include <unity.h>
 
 void setUp(void) {}
 

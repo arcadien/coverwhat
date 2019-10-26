@@ -2,6 +2,10 @@
 #include <api/Action.h>
 #include <api/Meta.h>
 #include <transports/Dummy.h>
+
+#if not defined(AVR)
+#define UNITY_OUTPUT_COLOR
+#endif
 #include <unity.h>
 
 void Expect_Weapon_to_return_right_primary_action();
@@ -13,17 +17,14 @@ int main(int, char **) {
   RUN_TEST(Expect_Weapon_to_return_right_secondary_action);
   return UNITY_END();
 }
-void tearDown() {
-}
-void setUp() {
-}
+void tearDown() {}
+void setUp() {}
 
 class TestWeapon : public actors::Weapon {
-public:
+ public:
   TestWeapon(transport::ITransport &transport)
       : actors::Weapon(transport, Meta::Actions::DAMAGE5,
-                       Meta::Actions::HEAL5) {
-  }
+                       Meta::Actions::HEAL5) {}
 };
 
 transport::Dummy dummyTransport;

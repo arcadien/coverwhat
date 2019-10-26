@@ -1,6 +1,10 @@
 #include <api/Action.h>
 #include <api/Entity.h>
 #include <api/Meta.h>
+
+#if not defined(AVR)
+#define UNITY_OUTPUT_COLOR
+#endif
 #include <unity.h>
 
 void Expect_Action_to_use_provided_coolDown();

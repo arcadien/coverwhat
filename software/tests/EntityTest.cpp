@@ -1,4 +1,8 @@
 #include <api/Entity.h>
+
+#if not defined(AVR)
+#define UNITY_OUTPUT_COLOR
+#endif
 #include <unity.h>
 
 void Expect_Entity_value_cannot_exceed_its_initial_value();

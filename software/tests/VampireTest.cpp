@@ -4,6 +4,9 @@
 #include <transports/Dummy.h>
 #include <weapons/Vampire.h>
 
+#if not defined(AVR)
+#define UNITY_OUTPUT_COLOR
+#endif
 #include <unity.h>
 
 void Expect_Vampire_to_damage_target_user_when_using_vampire_primary_action();
@@ -17,10 +20,8 @@ int main(int, char **) {
       Expect_Vampire_to_heal_target_user_when_using_vampire_secondary_action);
   return UNITY_END();
 }
-void tearDown() {
-}
-void setUp() {
-}
+void tearDown() {}
+void setUp() {}
 
 void Expect_Vampire_to_damage_target_user_when_using_vampire_primary_action() {
   transport::Dummy dummyTransport;
