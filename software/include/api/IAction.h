@@ -22,8 +22,7 @@ class IAction {
     AMOUNT_25 = 25,
     AMOUNT_50 = 50,
     AMOUNT_100 = 100,
-    AMOUNT_250 = 250,
-    AMOUNT_FULL = 255
+    AMOUNT_250 = 250
   };
 
   enum Type { DAMAGE, HEAL, /* STUN,*/ RESURRECT, NONE };

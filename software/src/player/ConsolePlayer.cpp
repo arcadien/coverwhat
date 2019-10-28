@@ -3,9 +3,10 @@
 #include <hardware/simulator/Simulator.h>
 #include <tools/RGBColor.h>
 #include <ui/ConsoleUi.h>
+#include <iostream>
 #include <thread>
 
-ui::ConsoleUi userInterface;
+ui::ConsoleUi userInterface(std::cin);
 actors::Player player;
 RGBColor rgbColor;
 hardware::Simulator hw;

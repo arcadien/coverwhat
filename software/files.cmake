@@ -4,6 +4,7 @@ set(LIB_CPP
   ./src/api/ITransport.cpp
   ./src/transports/Software.cpp
   ./src/weapons/Vampire.cpp
+  ./src/ui/ConsoleUi.cpp
 )
 
 set(LIB_H
@@ -18,9 +19,12 @@ set(LIB_H
   ./include/actors/Weapon.h
   ./include/transports/Dummy.h
   ./include/weapons/Vampire.h
+  ./include/ui/ConsoleUi.h
 )
 
 set(UNIT_TESTS 
+  StringActionFactoryTest.cpp
+  ConsoleUiTest.cpp
   EntityTest.cpp
   ActionTest.cpp 
   SoftwareTransportTest.cpp 
