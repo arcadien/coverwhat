@@ -12,6 +12,10 @@ add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_LIB_SRC} ${SIMULATOR_SRC})
 add_library(unity STATIC "${SOURCES_DIR}/third_party/unity/src/unity.c")
 
 
+add_executable(ConsolePlayer "${SOURCES_DIR}/src/player/ConsolePlayer.cpp")
+target_link_libraries(ConsolePlayer ${PROJECT_NAME})
+target_link_libraries(ConsolePlayer Threads::Threads)
+
 foreach(test_ ${UNIT_TESTS})
   set(THREADS_PREFER_PTHREAD_FLAG ON)
   find_package(Threads REQUIRED)
