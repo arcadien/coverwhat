@@ -4,7 +4,6 @@ set(LIB_CPP
   ./src/api/ITransport.cpp
   ./src/transports/Software.cpp
   ./src/weapons/Vampire.cpp
-  ./src/ui/ConsoleUi.cpp
 )
 
 set(LIB_H
@@ -19,27 +18,36 @@ set(LIB_H
   ./include/actors/Weapon.h
   ./include/transports/Dummy.h
   ./include/weapons/Vampire.h
-  ./include/ui/ConsoleUi.h
 )
 
 set(UNIT_TESTS 
-  StringActionFactoryTest.cpp
-  ConsoleUiTest.cpp
   EntityTest.cpp
   ActionTest.cpp 
   SoftwareTransportTest.cpp 
   WeaponTest.cpp 
   DummyTransportTest.cpp
   VampireTest.cpp
-  RGBColorTest.cpp)
+  RGBColorTest.cpp
+  StringActionFactoryTest.cpp
+)
 
 if(AVR)
   list(APPEND UNIT_TESTS Atmega328pTest.cpp)
-endif()
+else()
+  
+  list(APPEND UNIT_TESTS 
+    ConsoleUiTest.cpp
+    SimulatorTest.cpp
+  )
 
-if(NOT AVR)
-  list(APPEND UNIT_TESTS SimulatorTest.cpp)
-  list(APPEND LIB_CPP    ./src/hardware/simulator/Simulator.cpp)
-  list(APPEND LIB_H      ./include/hardware/simulator/Simulator.h)
+  list(APPEND LIB_CPP 
+    ./src/hardware/simulator/Simulator.cpp
+    ./src/ui/ConsoleUi.cpp
+  )
+  
+  list(APPEND LIB_H 
+    ./include/hardware/simulator/Simulator.h
+    ./include/ui/ConsoleUi.h
+  )
 endif()
 

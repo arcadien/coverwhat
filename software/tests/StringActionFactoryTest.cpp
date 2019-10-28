@@ -1,8 +1,6 @@
+#include <actions/StringActionFactory.h>
 #include <api/Action.h>
 #include <api/Entity.h>
-#include <api/Meta.h>
-
-#include <actions/StringActionFactory.h>
 
 #if not defined(AVR)
 #define UNITY_OUTPUT_COLOR
@@ -54,29 +52,32 @@ int main(int, char **) {
 void tearDown() {}
 void setUp() {}
 
+static const int TEN = 10;
+static const int HUNDRED = 100;
+
 void Expect_factory_able_to_create_H0() {
   Action action = actions::StringActionFactory<Action>::Create("H0");
-  TEST_ASSERT_EQUAL_INT(10, action.Process(10));
+  TEST_ASSERT_EQUAL_INT(TEN, action.Process(TEN));
 }
 void Expect_factory_able_to_create_H1() {
   Action action = actions::StringActionFactory<Action>::Create("H1");
-  TEST_ASSERT_EQUAL_INT(11, action.Process(10));
+  TEST_ASSERT_EQUAL_INT(11, action.Process(TEN));
 }
 void Expect_factory_able_to_create_H5() {
   Action action = actions::StringActionFactory<Action>::Create("H5");
-  TEST_ASSERT_EQUAL_INT(15, action.Process(10));
+  TEST_ASSERT_EQUAL_INT(15, action.Process(TEN));
 }
 void Expect_factory_able_to_create_H10() {
   Action action = actions::StringActionFactory<Action>::Create("H10");
-  TEST_ASSERT_EQUAL_INT(20, action.Process(10));
+  TEST_ASSERT_EQUAL_INT(20, action.Process(TEN));
 }
 void Expect_factory_able_to_create_H25() {
   Action action = actions::StringActionFactory<Action>::Create("H25");
-  TEST_ASSERT_EQUAL_INT(125, action.Process(100));
+  TEST_ASSERT_EQUAL_INT(125, action.Process(HUNDRED));
 }
 void Expect_factory_able_to_create_H50() {
   Action action = actions::StringActionFactory<Action>::Create("H50");
-  TEST_ASSERT_EQUAL_INT(150, action.Process(100));
+  TEST_ASSERT_EQUAL_INT(150, action.Process(HUNDRED));
 }
 void Expect_factory_able_to_create_H100() {
   Action action = actions::StringActionFactory<Action>::Create("H100");
@@ -88,36 +89,36 @@ void Expect_factory_able_to_create_H250() {
 }
 void Expect_factory_to_do_nothing_on_unknown_amount() {
   Action action = actions::StringActionFactory<Action>::Create("HBEE");
-  TEST_ASSERT_EQUAL_INT(10, action.Process(10));
+  TEST_ASSERT_EQUAL_INT(TEN, action.Process(TEN));
 }
 
 void Expect_factory_able_to_create_D0() {
   Action action = actions::StringActionFactory<Action>::Create("D0");
-  TEST_ASSERT_EQUAL_INT(10, action.Process(10));
+  TEST_ASSERT_EQUAL_INT(TEN, action.Process(TEN));
 }
 void Expect_factory_able_to_create_D1() {
   Action action = actions::StringActionFactory<Action>::Create("D1");
-  TEST_ASSERT_EQUAL_INT(9, action.Process(10));
+  TEST_ASSERT_EQUAL_INT(9, action.Process(TEN));
 }
 void Expect_factory_able_to_create_D5() {
   Action action = actions::StringActionFactory<Action>::Create("D5");
-  TEST_ASSERT_EQUAL_INT(5, action.Process(10));
+  TEST_ASSERT_EQUAL_INT(5, action.Process(TEN));
 }
 void Expect_factory_able_to_create_D10() {
   Action action = actions::StringActionFactory<Action>::Create("D10");
-  TEST_ASSERT_EQUAL_INT(0, action.Process(10));
+  TEST_ASSERT_EQUAL_INT(0, action.Process(TEN));
 }
 void Expect_factory_able_to_create_D25() {
   Action action = actions::StringActionFactory<Action>::Create("D25");
-  TEST_ASSERT_EQUAL_INT(75, action.Process(100));
+  TEST_ASSERT_EQUAL_INT(75, action.Process(HUNDRED));
 }
 void Expect_factory_able_to_create_D50() {
   Action action = actions::StringActionFactory<Action>::Create("D50");
-  TEST_ASSERT_EQUAL_INT(50, action.Process(100));
+  TEST_ASSERT_EQUAL_INT(50, action.Process(HUNDRED));
 }
 void Expect_factory_able_to_create_D100() {
   Action action = actions::StringActionFactory<Action>::Create("D100");
-  TEST_ASSERT_EQUAL_INT(100, action.Process(200));
+  TEST_ASSERT_EQUAL_INT(HUNDRED, action.Process(200));
 }
 void Expect_factory_able_to_create_D250() {
   Action action = actions::StringActionFactory<Action>::Create("D250");

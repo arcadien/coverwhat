@@ -33,18 +33,18 @@ class Action : public IAction {
   uint16_t Process(uint16_t currentValue) const override {
     uint16_t result = currentValue;
     switch (_type) {
-      case (DAMAGE):
+      case (IAction::Type::DAMAGE):
         if ((uint16_t)_amount > result) {
           result = 0;
         } else {
           result -= (uint16_t)_amount;
         }
         break;
-      case (HEAL):
+      case (IAction::Type::HEAL):
         result += (uint16_t)_amount;
         break;
-      case (RESURRECT):
-      case (NONE):
+      case (IAction::Type::RESURRECT):
+      case (IAction::Type::NONE):
         break;
     }
     return result;

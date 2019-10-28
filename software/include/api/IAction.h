@@ -25,9 +25,15 @@ class IAction {
     AMOUNT_250 = 250
   };
 
-  enum Type { DAMAGE, HEAL, /* STUN,*/ RESURRECT, NONE };
+  enum class Type : char {
+    DAMAGE = 'D',
+    HEAL = 'H',
+    /* STUN='S',*/
+    RESURRECT = 'R',
+    NONE = 'N',
+  };
 
-  virtual Entity::Tag const &GetTargetEntityTag() const = 0;
+  virtual Entity::Tag const& GetTargetEntityTag() const = 0;
   virtual Amount GetAmount() const = 0;
   virtual uint8_t GetCoolDownMs() const = 0;
   virtual uint16_t Process(uint16_t currentValue) const = 0;

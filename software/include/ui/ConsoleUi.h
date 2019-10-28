@@ -29,7 +29,7 @@ class ConsoleUi : public IUi {
             exit(0);
           } else {
             _actionQueue[0] =
-                actions::StringActionFactory<Action>::Create(buffer);
+                actions::StringActionFactory<Action>::Create(buffer.c_str());
             _available = true;
           }
         },
