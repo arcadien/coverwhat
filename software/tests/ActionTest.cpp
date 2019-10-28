@@ -16,6 +16,8 @@ void Expect_Damage_type_to_decrease_value();
 void Expect_Heal_type_to_increase_value();
 void Expect_None_type_to_keep_value_untouched();
 void Expect_Resurect_to_do_nothing_on_non_dead_player();
+void Expect_Entity_value_cannot_be_lower_than_zero();
+void Expect_Damage_to_lower_down_to_zero_not_less();
 
 int main(int, char **) {
   UNITY_BEGIN();
@@ -27,11 +29,30 @@ int main(int, char **) {
   RUN_TEST(Expect_Heal_type_to_increase_value);
   RUN_TEST(Expect_None_type_to_keep_value_untouched);
   RUN_TEST(Expect_Resurect_to_do_nothing_on_non_dead_player);
-
+  RUN_TEST(Expect_Entity_value_cannot_be_lower_than_zero);
+  RUN_TEST(Expect_Damage_to_lower_down_to_zero_not_less);
   return UNITY_END();
 }
 void tearDown() {}
 void setUp() {}
+
+void Expect_Damage_to_lower_down_to_zero_not_less() {
+  Action action(Action::Type::DAMAGE, Entity::Tag::Health,
+                Action::Amount::AMOUNT_50, 30);
+
+  auto result = action.Process(30);
+
+  TEST_ASSERT_EQUAL_INT(0, result);
+}
+
+void Expect_Entity_value_cannot_be_lower_than_zero() {
+  Action action(Action::Type::DAMAGE, Entity::Tag::Health,
+                Action::Amount::AMOUNT_5, 30);
+
+  auto result = action.Process(0);
+
+  TEST_ASSERT_EQUAL_INT(0, result);
+}
 
 void Expect_Damage_type_to_decrease_value() {
   Action action(Action::Type::DAMAGE, Entity::Tag::Health,

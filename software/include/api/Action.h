@@ -1,7 +1,6 @@
 #pragma once
 
 #include <api/IAction.h>
-
 /*!
    A Message is composed of 11 bits.
 
@@ -35,7 +34,11 @@ class Action : public IAction {
     uint16_t result = currentValue;
     switch (_type) {
       case (DAMAGE):
-        result -= (uint16_t)_amount;
+        if ((uint16_t)_amount > result) {
+          result = 0;
+        } else {
+          result -= (uint16_t)_amount;
+        }
         break;
       case (HEAL):
         result += (uint16_t)_amount;
