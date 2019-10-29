@@ -1,7 +1,29 @@
+/*
+ * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ *
+ * Copyright (c) 2019 Aurélien Labrosse
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <api/Action.h>
 #include <string.h>
+
+#if (__clang__)
+#include <type_traits>
+#endif
 
 namespace actions {
 /*!
@@ -9,13 +31,13 @@ namespace actions {
  *
  */
 #if (__clang__)
-#include <type_traits>
 template <typename T,
-          typename = std::enable_if<std::is_convertible<T *, Action *>::value>>
+          typename = std::enable_if<std::is_convertible<T *, IAction *>::value>>
+class StringActionFactory {
 #else
 template <typename T>
-#endif
 class StringActionFactory {
+#endif
  public:
   static T Create(const char *buffer) {
     int buflen = strlen(buffer);
