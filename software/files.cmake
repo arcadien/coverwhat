@@ -30,6 +30,7 @@ set(LIB_H
   ./include/api/Action.h
   ./include/api/Actor.h
   ./include/api/Entity.h
+  ./include/api/Team.h
   ./include/api/ITransport.h
   ./include/transports/Software.h
   ./include/actors/Player.h
@@ -47,6 +48,7 @@ set(UNIT_TESTS
   VampireTest.cpp
   RGBColorTest.cpp
   StringActionFactoryTest.cpp
+  PlayerTest.cpp
 )
 
 if(AVR)

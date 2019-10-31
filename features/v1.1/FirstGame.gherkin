@@ -1,0 +1,16 @@
+# This scenario describe some gameplays where few players 
+# plays together.
+#
+
+Feature: Gameplays
+
+Scenario: Deathmatch
+Given Player one and Player Two
+And Player one uses Vampire Weapon
+When time is up
+Then player with better kill/death ratio wins the game
+
+Scenario: Team deathmatch
+Given Team A and Team b
+When time is up
+Then team with players cumulated kill/death ratio wins the game

@@ -20,11 +20,16 @@
 
 #include <api/Action.h>
 #include <api/Entity.h>
+#include <api/Team.h>
 
 namespace actors {
 class Player {
  public:
-  Player() : _health(Entity::Tag::Health, 200) {}
+  Player() : _health(Entity::Tag::Health, 200), _team(Team::None) {}
+
+  Player(Team const &team) : _health(Entity::Tag::Health, 200), _team(team) {}
+
+  Team const &GetTeam() { return _team; }
 
   void SetEntityValue(Entity::Tag const &tag, uint16_t value) {
     _health.SetValue(value);
@@ -41,6 +46,7 @@ class Player {
 
  private:
   Entity _health;
+  const Team _team;
 };
 }  // namespace actors
 
