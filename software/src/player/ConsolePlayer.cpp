@@ -20,6 +20,7 @@
 #include <hardware/simulator/Simulator.h>
 #include <tools/RGBColor.h>
 #include <ui/ConsoleUi.h>
+
 #include <iostream>
 #include <thread>
 
@@ -40,8 +41,8 @@ void setup() {}
 void loop() {
   if (userInterface.ActionAvailable()) {
     player.Accept(userInterface.GetAction());
-    userInterface.Display(player.GetEntity(Entity::Tag::Health));
-    int hue = map(player.GetEntityValue(Entity::Tag::Health), 0, 200, 0, 145);
+    userInterface.Display(player.GetHealth());
+    int hue = map(player.GetHealth().GetValue(), 0, 200, 0, 145);
     rgbColor.FromHSV(hue, 255, 255);
   }
 }

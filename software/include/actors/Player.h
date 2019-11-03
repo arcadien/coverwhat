@@ -25,26 +25,24 @@
 namespace actors {
 class Player {
  public:
+  Player(uint16_t initialHealth)
+      : _health(Entity::Tag::Health, initialHealth), _team(Team::None) {}
+
   Player() : _health(Entity::Tag::Health, 200), _team(Team::None) {}
 
   Player(Team const &team) : _health(Entity::Tag::Health, 200), _team(team) {}
 
   Team const &GetTeam() { return _team; }
 
-  void SetEntityValue(Entity::Tag const &tag, uint16_t value) {
-    _health.SetValue(value);
-  }
-
   void Accept(Action const &action) {
     uint16_t newValue = action.Process(_health.GetValue());
     _health.SetValue(newValue);
   }
 
-  Entity const &GetEntity(Entity::Tag const &tag) { return _health; }
-
-  uint16_t GetEntityValue(Entity::Tag const &tag) { return _health.GetValue(); }
+  Entity const &GetHealth() { return _health; }
 
  private:
+  void SetHealth(uint16_t value) { _health.SetValue(value); }
   Entity _health;
   const Team _team;
 };

@@ -43,22 +43,28 @@ void setUp() {}
 void Expect_Vampire_to_damage_target_user_when_using_vampire_primary_action() {
   transport::Dummy dummyTransport;
   Weapons::Vampire vampire(dummyTransport);
-  actors::Player target;
+  actors::Player target(10);
   auto action = vampire.GetPrimary();
-  target.SetEntityValue(Entity::Tag::Health, 10);
   target.Accept(action);
-  uint16_t actualHealth = target.GetEntityValue(Entity::Tag::Health);
+  uint16_t actualHealth = target.GetHealth().GetValue();
+  ;
   TEST_ASSERT_EQUAL_INT(5, actualHealth);
 }
 
 void Expect_Vampire_to_heal_target_user_when_using_vampire_secondary_action() {
   transport::Dummy dummyTransport;
   Weapons::Vampire vampire(dummyTransport);
-  Entity health(Entity::Tag::Health, 1);
-  actors::Player target;
-  auto action = vampire.GetSecondary();
-  target.SetEntityValue(Entity::Tag::Health, 10);
-  target.Accept(action);
-  uint16_t actualHealth = target.GetEntityValue(Entity::Tag::Health);
-  TEST_ASSERT_EQUAL_INT(15, actualHealth);
+  actors::Player target(10);
+
+  // we cannot heal over the initial value,
+  // so we begin by a damage, then a heal
+
+  auto damageAction = vampire.GetPrimary();
+  target.Accept(damageAction);
+
+  auto healAction = vampire.GetSecondary();
+  target.Accept(healAction);
+
+  uint16_t actualHealth = target.GetHealth().GetValue();
+  TEST_ASSERT_EQUAL_INT(10, actualHealth);
 }

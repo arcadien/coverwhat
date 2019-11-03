@@ -41,8 +41,7 @@ void Expect_action_to_be_sent_to_right_target() {
   // Objective is:
   // a weapon hits player using primary
   // a weapon hits player using secondary
-  actors::Player targetPlayer;
-  targetPlayer.SetEntityValue(Entity::Tag::Health, 20);
+  actors::Player targetPlayer(20);
   transport::Software transport;
   Weapons::Vampire weapon(transport);
 
@@ -55,7 +54,7 @@ void Expect_action_to_be_sent_to_right_target() {
   weapon.TriggerPrimaryAction();
 
   // Assert player health
-  uint16_t actualHealth = targetPlayer.GetEntityValue(Entity::Tag::Health);
+  uint16_t actualHealth = targetPlayer.GetHealth().GetValue();
   TEST_ASSERT_EQUAL_INT(5, actualHealth);
 
   weapon.TriggerSecondaryAction();
@@ -63,7 +62,7 @@ void Expect_action_to_be_sent_to_right_target() {
   weapon.TriggerSecondaryAction();
 
   // Assert player health
-  actualHealth = targetPlayer.GetEntityValue(Entity::Tag::Health);
+  actualHealth = targetPlayer.GetHealth().GetValue();
   TEST_ASSERT_EQUAL_INT(20, actualHealth);
   // Assert player health
 }
