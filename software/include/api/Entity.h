@@ -24,8 +24,10 @@ class Entity {
  public:
   enum class Tag : const uint16_t { None = 0x0, Health = 0x1 };
 
-  Entity(Tag const &tag, uint16_t initialValue)
+  Entity(Tag const& tag, uint16_t initialValue)
       : _tag(tag), _initialValue(initialValue), _currentValue(initialValue) {}
+
+  Tag const& GetTag() const { return _tag; }
 
   uint16_t GetValue() const { return _currentValue; }
   void SetValue(uint16_t value) {

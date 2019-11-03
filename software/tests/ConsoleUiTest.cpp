@@ -17,6 +17,8 @@
  */
 
 #include <ui/ConsoleUi.h>
+
+#include <cstring>
 #include <sstream>
 
 #if not defined(AVR)
@@ -25,10 +27,13 @@
 #include <unity.h>
 
 void Expect_ui_to_read_input();
+void Expect_ui_to_print_entity();
 
 int main(int, char **) {
   UNITY_BEGIN();
   RUN_TEST(Expect_ui_to_read_input);
+  RUN_TEST(Expect_ui_to_print_entity);
+
   return UNITY_END();
 }
 void tearDown() {}
@@ -39,7 +44,7 @@ void Expect_ui_to_read_input() {
   {
     std::istringstream s;
     s.str("D10\n");
-    ui::ConsoleUi ui(s);
+    ui::ConsoleUi ui(s, std::cout);
 
     // give some time to the reading thread to effectively start
     std::this_thread::sleep_for(
@@ -55,5 +60,13 @@ void Expect_ui_to_read_input() {
       std::chrono::milliseconds(ui::ConsoleUi::READ_DELAY_MS));
 
   TEST_ASSERT_EQUAL_INT(0, actualResult);
+}
+
+void Expect_ui_to_print_entity() {
+  std::ostringstream os;
+  ui::ConsoleUi ui(std::cin, os);
+  Entity entity(Entity::Tag::Health, 200);
+  ui.Display(entity);
+  TEST_ASSERT_EQUAL_STRING("{'tag': 1, 'value': 200}\n", os.str().c_str());
 }
 

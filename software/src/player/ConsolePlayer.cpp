@@ -24,7 +24,7 @@
 #include <iostream>
 #include <thread>
 
-ui::ConsoleUi userInterface(std::cin);
+ui::ConsoleUi userInterface(std::cin, std::cout);
 actors::Player player;
 RGBColor rgbColor;
 hardware::Simulator hw;

@@ -21,10 +21,10 @@
 #include <actions/StringActionFactory.h>
 #include <api/IUi.h>
 #include <tools/Timer.h>
-#include <iostream>
-#include <string>
 
+#include <iostream>
 #include <mutex>
+#include <string>
 #include <thread>
 
 namespace ui {
@@ -36,13 +36,15 @@ class ConsoleUi : public IUi {
  public:
   static const uint8_t READ_DELAY_MS;
 
-  ConsoleUi(std::istream &inputStream)
-      : _available(false), _inputStream(inputStream) {
+  ConsoleUi(std::istream &inputStream, std::ostream &outputStream)
+      : _available(false),
+        _inputStream(inputStream),
+        _outputStream(outputStream) {
     _inputReader.SetInterval(
         [this]() {
           std::string buffer;
           std::getline(_inputStream, buffer);
-          std::cout << "[debug] Read " << buffer << std::endl;
+          _outputStream << "[debug] Read " << buffer << std::endl;
           if (buffer.compare("Q") == 0) {
             exit(0);
           } else {
@@ -63,16 +65,19 @@ class ConsoleUi : public IUi {
     return _actionQueue[0];
   }
   void DisplayDied() const override {}
+
   void Display(Entity const &entity) const override {
-    std::cout << entity.GetValue() << std::endl;
+    _outputStream << "{'tag': " << static_cast<uint16_t>(entity.GetTag())
+                  << ", 'value': " << entity.GetValue() << "}" << std::endl;
   }
 
   void Print(char const *message) const override {
-    std::cout << message << std::endl;
+    _outputStream << message << std::endl;
   }
 
  private:
   std::istream &_inputStream;
+  std::ostream &_outputStream;
   tools::Timer _inputReader;
   mutable bool _available;
   Action _actionQueue[1];
