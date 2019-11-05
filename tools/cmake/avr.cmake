@@ -46,9 +46,24 @@ add_definitions("-DARDUINO=101")
 # Do not use on library
 #add_definitions("-flto")
 
+set(AVR_BINARIES "${ARDUINO_ROOT}/hardware/tools/avr/bin")
+message("-- Using AVR toolchain binaries in ${AVR_BINARIES}")
+
+find_program(AVR_CC avr-gcc HINTS ${AVR_BINARIES})
+find_program(AVR_CXX avr-g++ HINTS ${AVR_BINARIES})
+find_program(AVR_OBJCOPY avr-objcopy HINTS ${AVR_BINARIES})
+find_program(AVR_SIZE_TOOL avr-size HINTS ${AVR_BINARIES})
+find_program(AVR_OBJDUMP avr-objdump HINTS ${AVR_BINARIES})
+
 # ############################################################################
 # status messages
 # ############################################################################
+message(STATUS "Current C compiler is: ${AVR_CC}")
+message(STATUS "Current C++ compiler is: ${AVR_CXX}")
+message(STATUS "Current OBJCOPY is: ${AVR_OBJCOPY}")
+message(STATUS "Current AVR_SIZE_TOOL is: ${AVR_SIZE_TOOL}")
+message(STATUS "Current AVR_OBJDUMP is: ${AVR_OBJDUMP}")
+
 message(STATUS "Current uploadtool is: ${AVR_UPLOADTOOL}")
 message(STATUS "Current programmer is: ${AVR_PROGRAMMER}")
 message(STATUS "Current upload port is: ${AVR_UPLOADTOOL_PORT}")
@@ -57,6 +72,12 @@ message(STATUS "Current MCU is set to: ${AVR_MCU}")
 message(STATUS "Current MCU speed (Hz) is set to: ${MCU_SPEED}")
 message(STATUS "Current H_FUSE is set to: ${AVR_H_FUSE}")
 message(STATUS "Current L_FUSE is set to: ${AVR_L_FUSE}")
+
+if(NOT BOARD_VARIANT)
+  set(BOARD_VARIANT "micro")
+endif()
+
+message(STATUS "Current board variant is set to : ${BOARD_VARIANT}")
 
 if(CMAKE_BUILD_TYPE MATCHES Release)
   set(CMAKE_C_FLAGS_RELEASE "-Os")
@@ -77,24 +98,36 @@ endif(CMAKE_BUILD_TYPE MATCHES Debug)
 
 include_directories("${SOURCES_DIR}/third_party/Low-Power/")
 include_directories("${SOURCES_DIR}/third_party/iremote/")
-include_directories("/usr/share/arduino/hardware/arduino/cores/arduino/")
-include_directories("/usr/share/arduino/hardware/arduino/variants/standard")
+
 
 add_avr_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_LIB_SRC})
 
 add_avr_library(unity STATIC "${SOURCES_DIR}/third_party/unity/src/unity.c")
 
-file(GLOB ARDUINO_SRC_CPP
-     "/usr/share/arduino/hardware/arduino/cores/arduino/*.cpp")
-file(GLOB ARDUINO_SRC_C
-     "/usr/share/arduino/hardware/arduino/cores/arduino/*.c")
-file(GLOB ARDUINO_INCLUDE
-     "/usr/share/arduino/hardware/arduino/cores/arduino/*.h")
+if(WIN32 OR "${CMAKE_SYSTEM}" STREQUAL "Generic")
+  set(ARDUINO_ROOT "C:/Program Files (x86)/Arduino/hardware/arduino/avr/")
+else(WIN32)
+  set(ARDUINO_ROOT "/usr/share/arduino/hardware/arduino/")
+endif()
+
+message("-- Using Arduino root: ${ARDUINO_ROOT}")
+file(GLOB ARDUINO_SRC_CPP "${ARDUINO_ROOT}/cores/arduino/*.cpp")
+file(GLOB ARDUINO_SRC_C   "${ARDUINO_ROOT}/cores/arduino/*.c")
+file(GLOB ARDUINO_INCLUDE "${ARDUINO_ROOT}/cores/arduino/*.h")
+
+include_directories("${ARDUINO_ROOT}/cores/arduino/")
+include_directories("${ARDUINO_ROOT}/variants/standard")
+
 add_avr_library(arduino
-                STATIC
-                ${ARDUINO_SRC_CPP}
-                ${ARDUINO_SRC_C}
-                ${ARDUINO_INCLUDE})
+  STATIC
+  ${ARDUINO_SRC_CPP}
+  ${ARDUINO_SRC_C}
+  ${ARDUINO_INCLUDE})
+
+if(WIN32 OR "${CMAKE_SYSTEM}" STREQUAL "Generic")
+  list(APPEND "C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/${BOARD_VARIANT}/pins_arduino.h")
+endif()
+
 
 add_avr_library(lowpower STATIC
                 "${SOURCES_DIR}/third_party/Low-Power/LowPower.cpp")
