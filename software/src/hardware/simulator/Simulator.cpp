@@ -46,10 +46,10 @@ void Simulator::WaitForEvent() {
 void Simulator::Stop() {
   _millisClock.Stop();
   _tickClock.Stop();
-  // wait for thread to actually stop, wait
-  // for tick duration at least so that Timer loop
-  // will end
+  
+  // wait for threads to actually stop
   auto delay = std::chrono::milliseconds(TICK_INTERVAL_MS);
+
   std::this_thread::sleep_for(delay);
 }
 
@@ -87,7 +87,6 @@ void Simulator::Setup() {
  *
  */
 unsigned long Simulator::Millis() {
-  unsigned long result;
   std::lock_guard<std::mutex> guard(_millisMutex);
   return _millis;
 }

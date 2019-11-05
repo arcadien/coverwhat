@@ -21,8 +21,18 @@
 # configuration for non-embedded PC
 #
 
-add_definitions("-Werror") 
-add_definitions("-pedantic-errors")
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  # using Clang
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  # using GCC
+  add_definitions("-Werror") 
+  add_definitions("-pedantic-errors")
+  add_definitions("-pedantic")
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+  # using Intel C++
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  # using Visual Studio C++
+endif()
 
 file(GLOB SIMULATOR_SRC "${SOURCES_DIR}/src/hardware/simulator/*.cpp")
 

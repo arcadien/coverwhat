@@ -22,10 +22,7 @@ project(Koth VERSION 0.1.0)
 
 set(PROJECT_NAME "koth")
 
-
 set(CMAKE_CXX_STANDARD 11)
-
-add_definitions("-pedantic")
 
 include(software/files.cmake)
 

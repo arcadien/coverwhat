@@ -18,7 +18,7 @@
 
 #include <actors/Player.h>
 
-#if not defined(AVR)
+#ifndef AVR
 #define UNITY_OUTPUT_COLOR
 #endif
 #include <unity.h>

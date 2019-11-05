@@ -20,6 +20,7 @@
 
 #include <api/Action.h>
 #include <string.h>
+#include <stdint.h>
 
 #if (__clang__)
 #include <type_traits>
@@ -40,7 +41,7 @@ class StringActionFactory {
 #endif
  public:
   static T Create(const char *buffer) {
-    int buflen = strlen(buffer);
+    size_t buflen = strlen(buffer);
     if (buflen < 2) {
       return T();
     }

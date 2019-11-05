@@ -22,7 +22,7 @@
 #include <iostream>
 #include <numeric>
 
-#if not defined(AVR)
+#ifndef AVR
 #define UNITY_OUTPUT_COLOR
 #endif
 #include <unity.h>
@@ -57,12 +57,13 @@ void Expect_simulator_millis_to_not_overflow_in_normal_condition() {
   unsigned long iMustBeAround100 = hw.Millis();
   TEST_ASSERT_INT_WITHIN(10, 100, iMustBeAround100);
 }
+
 void Expect_simulator_millis_to_overflow_after_max_unsigned_long() {
   unsigned long nearOverflow = std::numeric_limits<unsigned long>::max();
   hardware::Simulator hw(nearOverflow);
   hw.sleepMs(10);
   unsigned long iMustBeASmallValue = hw.Millis();
-  TEST_ASSERT_INT_WITHIN(2, 10, iMustBeASmallValue);
+  TEST_ASSERT_LESS_THAN_INT8(15, iMustBeASmallValue);
 }
 
 void Expect_simulator_to_be_clocked() {
@@ -107,9 +108,6 @@ void Expect_simulator_to_have_a_secondary_action() {
 }
 
 void Expect_simulator_to_be_able_to_sleep_for_some_ms() {
-  unsigned long elapsed_ms;
-  unsigned long begin;
-  unsigned long end;
   hardware::Simulator hw;
   auto start = std::chrono::high_resolution_clock::now();
   hw.sleepMs(250);
