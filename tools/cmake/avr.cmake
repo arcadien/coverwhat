@@ -74,7 +74,7 @@ message(STATUS "Current H_FUSE is set to: ${AVR_H_FUSE}")
 message(STATUS "Current L_FUSE is set to: ${AVR_L_FUSE}")
 
 if(NOT BOARD_VARIANT)
-  set(BOARD_VARIANT "micro")
+  set(BOARD_VARIANT "standard")
 endif()
 
 message(STATUS "Current board variant is set to : ${BOARD_VARIANT}")
@@ -108,13 +108,19 @@ if(NOT ARDUINO_ROOT)
   set(ARDUINO_ROOT "/usr/share/arduino/")
 endif()
 
-message("-- Using Arduino root: ${ARDUINO_ROOT}")
-file(GLOB ARDUINO_SRC_CPP "${ARDUINO_ROOT}/hardware/arduino/avr/cores/arduino/*.cpp")
-file(GLOB ARDUINO_SRC_C   "${ARDUINO_ROOT}/hardware/arduino/avr/cores/arduino/*.c")
-file(GLOB ARDUINO_INCLUDE "${ARDUINO_ROOT}/hardware/arduino/avr/cores/arduino/*.h")
+if( TRUE )
+  set(ARDUINO_SRC "${ARDUINO_ROOT}/hardware/arduino/cores/arduino/")
+  include_directories("${ARDUINO_ROOT}/hardware/arduino/variants/${BOARD_VARIANT}")
+else()
+  set(ARDUINO_SRC "${ARDUINO_ROOT}/hardware/arduino/avr/cores/arduino/")
+  include_directories("${ARDUINO_ROOT}/hardware/arduino/avr/variants/${BOARD_VARIANT}")
+endif()
 
-include_directories("${ARDUINO_ROOT}/hardware/arduino/avr/cores/arduino/")
-include_directories("${ARDUINO_ROOT}/hardware/arduino/avr/variants/${BOARD_VARIANT}")
+file(GLOB ARDUINO_SRC_CPP "${ARDUINO_SRC}/*.cpp")
+file(GLOB ARDUINO_SRC_C   "${ARDUINO_SRC}/*.c")
+file(GLOB ARDUINO_INCLUDE "${ARDUINO_SRC}/*.h")
+
+include_directories("${ARDUINO_SRC}")
 
 add_avr_library(arduino
   STATIC

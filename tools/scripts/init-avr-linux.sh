@@ -17,10 +17,16 @@
 #
 
 export MCU=atmega328p
+export BOARD=standard
+export  CLOCK=16000000U
+
+
+export MCU=atmega328p
 cmake  $1 \
 -G "Unix Makefiles" \
--DMCU_SPEED=16000000U \
+-DMCU_SPEED=$CLOCK \
 -DAVR_MCU=$MCU \
+-DBOARD_VARIANT=$BOARD \
 -DCMAKE_BUILD_TYPE=Release \
 -DCMAKE_TOOLCHAIN_FILE=$1/software/third_party/cmake-avr/generic-gcc-avr.cmake
 
