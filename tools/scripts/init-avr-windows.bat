@@ -42,6 +42,7 @@ cmake  %1                                        ^
 -DBOARD_VARIANT=%BOARD%                          ^
 -DCMAKE_BUILD_TYPE=Release                       ^
 -DARDUINO_ROOT="C:/Program Files (x86)/Arduino/" ^
+-DCROSS_FROM_WINDOWS=True                        ^
 -DCMAKE_TOOLCHAIN_FILE=%1\software\third_party\cmake-avr\generic-gcc-avr.cmake
 
 
