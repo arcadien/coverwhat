@@ -104,30 +104,23 @@ add_avr_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_LIB_SRC})
 
 add_avr_library(unity STATIC "${SOURCES_DIR}/third_party/unity/src/unity.c")
 
-if(WIN32 OR "${CMAKE_SYSTEM}" STREQUAL "Generic")
-  set(ARDUINO_ROOT "C:/Program Files (x86)/Arduino/hardware/arduino/avr/")
-else(WIN32)
-  set(ARDUINO_ROOT "/usr/share/arduino/hardware/arduino/")
+if(NOT ARDUINO_ROOT)
+  set(ARDUINO_ROOT "/usr/share/arduino/")
 endif()
 
 message("-- Using Arduino root: ${ARDUINO_ROOT}")
-file(GLOB ARDUINO_SRC_CPP "${ARDUINO_ROOT}/cores/arduino/*.cpp")
-file(GLOB ARDUINO_SRC_C   "${ARDUINO_ROOT}/cores/arduino/*.c")
-file(GLOB ARDUINO_INCLUDE "${ARDUINO_ROOT}/cores/arduino/*.h")
+file(GLOB ARDUINO_SRC_CPP "${ARDUINO_ROOT}/hardware/arduino/avr/cores/arduino/*.cpp")
+file(GLOB ARDUINO_SRC_C   "${ARDUINO_ROOT}/hardware/arduino/avr/cores/arduino/*.c")
+file(GLOB ARDUINO_INCLUDE "${ARDUINO_ROOT}/hardware/arduino/avr/cores/arduino/*.h")
 
-include_directories("${ARDUINO_ROOT}/cores/arduino/")
-include_directories("${ARDUINO_ROOT}/variants/standard")
+include_directories("${ARDUINO_ROOT}/hardware/arduino/avr/cores/arduino/")
+include_directories("${ARDUINO_ROOT}/hardware/arduino/avr/variants/${BOARD_VARIANT}")
 
 add_avr_library(arduino
   STATIC
   ${ARDUINO_SRC_CPP}
   ${ARDUINO_SRC_C}
   ${ARDUINO_INCLUDE})
-
-if(WIN32 OR "${CMAKE_SYSTEM}" STREQUAL "Generic")
-  list(APPEND "C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/${BOARD_VARIANT}/pins_arduino.h")
-endif()
-
 
 add_avr_library(lowpower STATIC
                 "${SOURCES_DIR}/third_party/Low-Power/LowPower.cpp")

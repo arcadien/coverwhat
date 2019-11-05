@@ -32,7 +32,7 @@ rem
 rem ```
 
 set MCU=atmega328p
-set BOARD=micro
+set BOARD=standard
 set CLOCK=16000000U
 
 cmake  %1                                        ^
