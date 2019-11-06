@@ -24,8 +24,10 @@
 #include <iostream>
 #include <thread>
 
+static const int PLAYER_HEALTH = 200;
+
 ui::ConsoleUi userInterface(std::cin, std::cout);
-actors::Player player;
+actors::Player player(PLAYER_HEALTH);
 RGBColor rgbColor;
 hardware::Simulator hw;
 
@@ -42,7 +44,7 @@ void loop() {
   if (userInterface.ActionAvailable()) {
     player.Accept(userInterface.GetAction());
     userInterface.Display(player.GetHealth());
-    int hue = map(player.GetHealth().GetValue(), 0, 200, 0, 145);
+    int hue = map(player.GetHealth().GetValue(), 0, PLAYER_HEALTH, 0, 145);
     rgbColor.FromHSV(hue, 255, 255);
   }
 }

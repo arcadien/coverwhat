@@ -38,16 +38,16 @@ void tearDown() {}
 void setUp() {}
 
 void Expect_Player_to_be_set_in_red_team() {
-  actors::Player p(Team::Red);
+  actors::Player p(200, Team::Red);
   TEST_ASSERT_EQUAL(Team::Red, p.GetTeam());
 }
 
 void Expect_Player_to_be_set_in_blue_team() {
-  actors::Player p(Team::Blue);
+  actors::Player p(200, Team::Blue);
   TEST_ASSERT_EQUAL(Team::Blue, p.GetTeam());
 }
 
 void Expect_default_Player_to_be_set_in_default_team() {
-  actors::Player p;
+  actors::Player p(200);
   TEST_ASSERT_EQUAL(Team::None, p.GetTeam());
 }

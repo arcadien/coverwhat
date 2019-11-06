@@ -26,17 +26,24 @@ namespace actors {
 class Player {
  public:
   Player(uint16_t initialHealth)
-      : _health(Entity::Tag::Health, initialHealth), _team(Team::None) {}
+      : _initialHealth(Entity::Tag::Health, initialHealth),
+        _health(Entity::Tag::Health, initialHealth),
+        _team(Team::None) {}
 
-  Player() : _health(Entity::Tag::Health, 200), _team(Team::None) {}
-
-  Player(Team const &team) : _health(Entity::Tag::Health, 200), _team(team) {}
+  Player(uint16_t initialHealth, Team const &team)
+      : _initialHealth(Entity::Tag::Health, initialHealth),
+        _health(Entity::Tag::Health, initialHealth),
+        _team(team) {}
 
   Team const &GetTeam() { return _team; }
 
   void Accept(Action const &action) {
-    uint16_t newValue = action.Process(_health.GetValue());
-    _health.SetValue(newValue);
+    if (IAction::Type::RESURRECT == action.GetType()) {
+      _health = _initialHealth;
+    } else {
+      uint16_t newValue = action.Process(_health.GetValue());
+      _health.SetValue(newValue);
+    }
   }
 
   Entity const &GetHealth() { return _health; }
@@ -44,6 +51,7 @@ class Player {
  private:
   void SetHealth(uint16_t value) { _health.SetValue(value); }
   Entity _health;
+  Entity _initialHealth;
   const Team _team;
 };
 }  // namespace actors
