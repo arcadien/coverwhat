@@ -37,6 +37,21 @@ int main(int, char **) {
 void tearDown() {}
 void setUp() {}
 
+void Expect_Player_to_resurrect_when_processing_such_action() {
+  actors::Player p(200);
+  Action damageAction(Action::Type::DAMAGE, Entity::Tag::Health,
+                      Action::Amount::AMOUNT_250, 0);
+
+  p.Accept(damageAction);  // health now 0
+
+  Action rezAction(Action::Type::RESURRECT, Entity::Tag::Health,
+                   Action::Amount::AMOUNT_0, 0);
+
+  p.Accept(rezAction);
+
+  TEST_ASSERT_EQUAL_INT(200, p.GetHealth().GetValue());
+}
+
 void Expect_Player_to_be_set_in_red_team() {
   actors::Player p(200, Team::Red);
   TEST_ASSERT_EQUAL(Team::Red, p.GetTeam());
