@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -34,7 +34,7 @@ long map(long x, long in_min, long in_max, long out_min, long out_max) {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-}  // namespace
+} // namespace
 
 void setup() {}
 
@@ -47,7 +47,7 @@ void loop() {
   }
 }
 
-int main(int, char**) {
+int main(int, char **) {
   setup();
   for (;;) {
     loop();

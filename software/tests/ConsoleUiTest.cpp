@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -69,4 +69,3 @@ void Expect_ui_to_print_entity() {
   ui.Display(entity);
   TEST_ASSERT_EQUAL_STRING("{'tag': 1, 'value': 200}\n", os.str().c_str());
 }
-

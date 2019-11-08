@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -31,7 +31,7 @@
  * milliseconds.
  */
 class IAction {
- public:
+public:
   enum class Amount : uint8_t {
     AMOUNT_0 = 0,
     AMOUNT_1 = 1,
@@ -51,9 +51,8 @@ class IAction {
     NONE = 'N',
   };
 
-  virtual Entity::Tag const& GetTargetEntityTag() const = 0;
+  virtual Entity::Tag const &GetTargetEntityTag() const = 0;
   virtual Amount GetAmount() const = 0;
   virtual uint8_t GetCoolDownMs() const = 0;
   virtual uint16_t Process(uint16_t currentValue) const = 0;
 };
-

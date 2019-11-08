@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -28,18 +28,14 @@
 */
 
 class Action : public IAction {
- public:
+public:
   Action()
-      : _type(Type::NONE),
-        _entityTag(Entity::Tag::None),
-        _amount(Action::Amount::AMOUNT_0),
-        _coolDown(0) {}
+      : _type(Type::NONE), _entityTag(Entity::Tag::None),
+        _amount(Action::Amount::AMOUNT_0), _coolDown(0) {}
 
   Action(Type const &type, Entity::Tag const &entityTag, Amount const &amount,
          uint8_t cooldown)
-      : _type(type),
-        _entityTag(entityTag),
-        _amount(amount),
+      : _type(type), _entityTag(entityTag), _amount(amount),
         _coolDown(cooldown) {}
 
   Entity::Tag const &GetTargetEntityTag() const override { return _entityTag; }
@@ -51,27 +47,26 @@ class Action : public IAction {
   uint16_t Process(uint16_t currentValue) const override {
     uint16_t result = currentValue;
     switch (_type) {
-      case (IAction::Type::DAMAGE):
-        if ((uint16_t)_amount > result) {
-          result = 0;
-        } else {
-          result -= (uint16_t)_amount;
-        }
-        break;
-      case (IAction::Type::HEAL):
-        result += (uint16_t)_amount;
-        break;
-      case (IAction::Type::RESURRECT):
-      case (IAction::Type::NONE):
-        break;
+    case (IAction::Type::DAMAGE):
+      if ((uint16_t)_amount > result) {
+        result = 0;
+      } else {
+        result -= (uint16_t)_amount;
+      }
+      break;
+    case (IAction::Type::HEAL):
+      result += (uint16_t)_amount;
+      break;
+    case (IAction::Type::RESURRECT):
+    case (IAction::Type::NONE):
+      break;
     }
     return result;
   }
 
- private:
+private:
   Type _type;
   Entity::Tag _entityTag;
   Amount _amount;
   uint8_t _coolDown;
 };
-

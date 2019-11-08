@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -26,7 +26,7 @@ namespace hardware {
  *
  */
 class IHardware {
- public:
+public:
   static const int TICK_INTERVAL_MS = 10;
 
   virtual ~IHardware() = default;
@@ -70,4 +70,4 @@ class IHardware {
    */
   virtual void WaitForEvent() = 0;
 };
-}  // namespace hardware
+} // namespace hardware

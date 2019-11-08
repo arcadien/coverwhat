@@ -1,6 +1,6 @@
 @echo off
 rem 
-rem  This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+rem  This file is part of the Hack distribution (https://github.com/arcadien/Hack)
 rem 
 rem  Copyright (c) 2019 Aurélien Labrosse
 rem 

@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -26,8 +26,7 @@
 namespace hardware {
 
 Simulator::Simulator(unsigned long initialMillis)
-    : _millis(initialMillis),
-      _primaryActionExecutionCount(0),
+    : _millis(initialMillis), _primaryActionExecutionCount(0),
       _secondaryActionExecutionCount(0) {
   Setup();
 }
@@ -46,7 +45,7 @@ void Simulator::WaitForEvent() {
 void Simulator::Stop() {
   _millisClock.Stop();
   _tickClock.Stop();
-  
+
   // wait for threads to actually stop
   auto delay = std::chrono::milliseconds(TICK_INTERVAL_MS);
 
@@ -110,4 +109,4 @@ void Simulator::OnPrimaryAction() {}
 void Simulator::OnSecondaryAction() {}
 void Simulator::OnTick() {}
 
-}  // namespace hardware
+} // namespace hardware

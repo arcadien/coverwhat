@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -75,12 +75,12 @@ void DrawUi() {
   Serial.println("*");
 }
 
-}  // namespace
+} // namespace
 
 namespace ui {
 
 class BluetoothElectronicUi : public IUi {
- public:
+public:
   BluetoothElectronicUi(int baudrate) {
     Serial.begin(baudrate);
     DrawUi();
@@ -88,9 +88,9 @@ class BluetoothElectronicUi : public IUi {
   bool ActionAvailable() const override { return false; }
   Action GetAction() const override { return Action(); }
   void DisplayDied() const override {}
-  void Display(Entity const& entity) const override {}
-  void Print(char const* message) const override { Serial.println(message); }
+  void Display(Entity const &entity) const override {}
+  void Print(char const *message) const override { Serial.println(message); }
 };
-}  // namespace ui
+} // namespace ui
 
 #endif

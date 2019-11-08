@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -24,12 +24,12 @@ class Entity;
 namespace ui {
 
 class IUi {
- public:
+public:
   virtual bool ActionAvailable() const = 0;
   virtual Action GetAction() const = 0;
   virtual void DisplayDied() const = 0;
-  virtual void Display(Entity const& entity) const = 0;
-  virtual void Print(char const* message) const = 0;
+  virtual void Display(Entity const &entity) const = 0;
+  virtual void Print(char const *message) const = 0;
 };
 
-}  // namespace ui
+} // namespace ui

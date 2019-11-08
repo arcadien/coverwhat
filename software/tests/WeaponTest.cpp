@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -39,7 +39,7 @@ void tearDown() {}
 void setUp() {}
 
 class TestWeapon : public actors::Weapon {
- public:
+public:
   TestWeapon(transport::ITransport &transport)
       : actors::Weapon(transport, Meta::Actions::DAMAGE5,
                        Meta::Actions::HEAL5) {}
@@ -57,4 +57,3 @@ void Expect_Weapon_to_return_right_secondary_action() {
   Action const &actualSecondary = WEAPON_UNDER_TEST.GetSecondary();
   TEST_ASSERT(&actualSecondary == &Meta::Actions::HEAL5);
 }
-

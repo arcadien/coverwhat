@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -22,7 +22,7 @@
 
 namespace ui {
 class SerialUi : public IUi {
- public:
+public:
   SerialUi(int baudrate) : _available(false) {}
 
   bool ActionAvailable() const override { return _available; }
@@ -31,7 +31,7 @@ class SerialUi : public IUi {
   void Display(Entity const &entity) const override {}
   void Print(char const *message) const override;
 
- private:
+private:
   uint8_t _available;
 };
-}  // namespace ui
+} // namespace ui

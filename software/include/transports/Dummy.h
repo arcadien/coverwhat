@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -25,11 +25,10 @@ namespace transport {
  * This transport implementation just does nothing, nor send nor receive
  */
 class Dummy : public ITransport {
- public:
+public:
   ~Dummy() override{};
-  void Queue(Action const& action) override {}
+  void Queue(Action const &action) override {}
   bool ActionAvailable() override { return false; }
   Action const GetAction() override { return Action(); }
 };
-}  // namespace transport
-
+} // namespace transport

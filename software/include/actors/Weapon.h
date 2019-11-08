@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -23,11 +23,10 @@
 
 namespace actors {
 class Weapon {
- public:
+public:
   Weapon(transport::ITransport &transport, Action const &primaryAction,
          Action const &secondaryAction)
-      : _transport(transport),
-        _primary(primaryAction),
+      : _transport(transport), _primary(primaryAction),
         _secondary(secondaryAction) {}
 
   Action const &GetPrimary() { return _primary; }
@@ -36,9 +35,9 @@ class Weapon {
   void TriggerPrimaryAction() { _transport.Queue(GetPrimary()); }
   void TriggerSecondaryAction() { _transport.Queue(GetSecondary()); }
 
- private:
+private:
   transport::ITransport &_transport;
   Action const &_primary;
   Action const &_secondary;
 };
-}  // namespace actors
+} // namespace actors

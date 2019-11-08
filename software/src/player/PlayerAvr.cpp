@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -43,7 +43,7 @@ int livesCounter;
 int ammo;
 RGBColor rgbColor;
 
-const char* heroes[] = {"dps", "tank", "healer", "sniper"};
+const char *heroes[] = {"dps", "tank", "healer", "sniper"};
 uint8_t heroIndex;
 
 int hue;
@@ -53,7 +53,7 @@ int ledPinR = 5;
 int ledPinG = 6;
 int ledPinB = 9;
 
-void postColors(RGBColor const& rgb_color) {
+void postColors(RGBColor const &rgb_color) {
   // 0 is max value for RGB leds
   // clamp between 0 and maxBrightness to save battery
   const uint8_t maxBrightness = 100;
@@ -73,14 +73,14 @@ void setup() {
   Serial.println("*E" + String(heroes[heroIndex]) + "*");
   Serial.println("*A" + String(ammo) + "*");
 
-  irrecv.enableIRIn();  // Start the receiver
+  irrecv.enableIRIn(); // Start the receiver
 
-  pinMode(5, OUTPUT);  // red
-  pinMode(6, OUTPUT);  // green
-  pinMode(9, OUTPUT);  // blue
+  pinMode(5, OUTPUT); // red
+  pinMode(6, OUTPUT); // green
+  pinMode(9, OUTPUT); // blue
 
-  int saturation = 255;  // saturation is a number between 0 - 255
-  int brightness = 255;  // value is a number between 0 - 255
+  int saturation = 255; // saturation is a number between 0 - 255
+  int brightness = 255; // value is a number between 0 - 255
 
   rgbColor.FromHSV(145, saturation, brightness);
   postColors(rgbColor);
@@ -101,10 +101,10 @@ void loop() {
 
       for (int i = 0; i < 500; i++) {
         hue = map(i, 0, 500, 0,
-                  145);  // map health between red (dead) and green-blue
+                  145); // map health between red (dead) and green-blue
         rgbColor.FromHSV(hue, 255, 255);
         postColors(rgbColor);
-        delay(5);  // 5*500 = 2.5s
+        delay(5); // 5*500 = 2.5s
       }
 
       health = 500;
@@ -117,12 +117,12 @@ void loop() {
       // change hero type
       // simulate using a marvelous colour shade
       RGBColor tempColor;
-      int saturation = 255;  // saturation is a number between 0 - 255
-      int brightness = 255;  // value is a number between 0 - 255
+      int saturation = 255; // saturation is a number between 0 - 255
+      int brightness = 255; // value is a number between 0 - 255
 
       for (int i = health; i > 0; i--) {
         hue = map(i, 0, 500, 0,
-                  145);  // map health between red (dead) and green-blue
+                  145); // map health between red (dead) and green-blue
         tempColor.FromHSV(hue, saturation, brightness);
         postColors(tempColor);
         delay(5);
@@ -130,7 +130,7 @@ void loop() {
 
       for (int i = 0; i < health; i++) {
         hue = map(i, 0, 500, 0,
-                  145);  // map health between red (dead) and green-blue
+                  145); // map health between red (dead) and green-blue
         tempColor.FromHSV(hue, saturation, brightness);
         postColors(tempColor);
         delay(5);
@@ -146,9 +146,9 @@ void loop() {
     }
   }
 
-  decode_results results;  // Somewhere to store the results
+  decode_results results; // Somewhere to store the results
 
-  if (irrecv.decode(&results)) {  // Grab an IR code
+  if (irrecv.decode(&results)) { // Grab an IR code
 
     // All protocols have data
     Serial.print("Raw IR value = 0b");
@@ -194,11 +194,11 @@ void loop() {
     Serial.println("*L" + String(health) + "*");
 
     if (health > 0) {
-      hue = map(health, 0, 500, 0, 145);  // hue is a number between 0 and 360
-      int saturation = 255;  // saturation is a number between 0 - 255
-      int brightness = 255;  // value is a number between 0 - 255
+      hue = map(health, 0, 500, 0, 145); // hue is a number between 0 and 360
+      int saturation = 255; // saturation is a number between 0 - 255
+      int brightness = 255; // value is a number between 0 - 255
 
-      rgbColor.FromHSV(hue, saturation, brightness);  // converts HSB to RGB
+      rgbColor.FromHSV(hue, saturation, brightness); // converts HSB to RGB
     } else {
       rgbColor.red = 0;
       rgbColor.green = 0;
@@ -207,7 +207,6 @@ void loop() {
 
     postColors(rgbColor);
 
-    irrecv.resume();  // Prepare for the next value
+    irrecv.resume(); // Prepare for the next value
   }
 }
-

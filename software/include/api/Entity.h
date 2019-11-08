@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -21,13 +21,13 @@
 #include <stdint.h>
 
 class Entity {
- public:
+public:
   enum class Tag : const uint16_t { None = 0x0, Health = 0x1 };
 
-  Entity(Tag const& tag, uint16_t initialValue)
+  Entity(Tag const &tag, uint16_t initialValue)
       : _tag(tag), _initialValue(initialValue), _currentValue(initialValue) {}
 
-  Tag const& GetTag() const { return _tag; }
+  Tag const &GetTag() const { return _tag; }
 
   uint16_t GetValue() const { return _currentValue; }
   void SetValue(uint16_t value) {
@@ -38,7 +38,7 @@ class Entity {
     }
   }
 
- private:
+private:
   Tag _tag;
   uint16_t _initialValue;
   uint16_t _currentValue;

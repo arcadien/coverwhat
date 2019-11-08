@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -36,7 +36,7 @@ namespace hardware {
  * hardware target.
  */
 class Simulator : public IHardware {
- public:
+public:
   Simulator(unsigned long initialMillis = 0);
   virtual ~Simulator();
   void sleepMs(uint16_t ms) override;
@@ -63,7 +63,7 @@ class Simulator : public IHardware {
   void TriggerPrimaryAction();
   void TriggerSecondaryAction();
 
- private:
+private:
   tools::Timer _millisClock;
   tools::Timer _tickClock;
   unsigned long _millis;
@@ -72,4 +72,4 @@ class Simulator : public IHardware {
   std::mutex _tickMutex;
   std::mutex _millisMutex;
 };
-}  // namespace hardware
+} // namespace hardware
