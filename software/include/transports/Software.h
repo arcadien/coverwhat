@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -24,7 +24,7 @@
 
 namespace transport {
 class Software : public ITransport {
- public:
+public:
   Software();
 
   void Wire(actors::Weapon *weapon, actors::Player *player) {
@@ -35,7 +35,7 @@ class Software : public ITransport {
   bool ActionAvailable() override { return false; }
   const Action GetAction() override { return Action(); }
 
- private:
+private:
   actors::Player *_player;
 };
-}  // namespace transport
+} // namespace transport

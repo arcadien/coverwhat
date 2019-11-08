@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -29,17 +29,17 @@ namespace transport {
  *
  */
 class ITransport {
- public:
+public:
   virtual ~ITransport() = default;
 
   /*!
    * Push an Action to send in the ITransport implementation queue
    */
-  virtual void Queue(Action const& action) = 0;
+  virtual void Queue(Action const &action) = 0;
 
   virtual bool ActionAvailable() = 0;
 
   virtual const Action GetAction() = 0;
 };
 
-}  // namespace transport
+} // namespace transport

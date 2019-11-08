@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -75,7 +75,7 @@ struct RGBColor {
 
     int base;
 
-    if (sat == 0) {  // Acromatic color (gray). Hue doesn't mind.
+    if (sat == 0) { // Acromatic color (gray). Hue doesn't mind.
       red = value;
       green = value;
       blue = value;
@@ -83,41 +83,41 @@ struct RGBColor {
       base = ((255 - sat) * value) >> 8;
 
       switch (hue / 60) {
-        case 0:
-          red = value;
-          green = (((value - base) * hue) / 60) + base;
-          blue = base;
-          break;
+      case 0:
+        red = value;
+        green = (((value - base) * hue) / 60) + base;
+        blue = base;
+        break;
 
-        case 1:
-          red = (((value - base) * (60 - (hue % 60))) / 60) + base;
-          green = value;
-          blue = base;
-          break;
+      case 1:
+        red = (((value - base) * (60 - (hue % 60))) / 60) + base;
+        green = value;
+        blue = base;
+        break;
 
-        case 2:
-          red = base;
-          green = value;
-          blue = (((value - base) * (hue % 60)) / 60) + base;
-          break;
+      case 2:
+        red = base;
+        green = value;
+        blue = (((value - base) * (hue % 60)) / 60) + base;
+        break;
 
-        case 3:
-          red = base;
-          green = (((value - base) * (60 - (hue % 60))) / 60) + base;
-          blue = value;
-          break;
+      case 3:
+        red = base;
+        green = (((value - base) * (60 - (hue % 60))) / 60) + base;
+        blue = value;
+        break;
 
-        case 4:
-          red = (((value - base) * (hue % 60)) / 60) + base;
-          green = base;
-          blue = value;
-          break;
+      case 4:
+        red = (((value - base) * (hue % 60)) / 60) + base;
+        green = base;
+        blue = value;
+        break;
 
-        case 5:
-          red = value;
-          green = base;
-          blue = (((value - base) * (60 - (hue % 60))) / 60) + base;
-          break;
+      case 5:
+        red = value;
+        green = base;
+        blue = (((value - base) * (60 - (hue % 60))) / 60) + base;
+        break;
       }
     }
   }

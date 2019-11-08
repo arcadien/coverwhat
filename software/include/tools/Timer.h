@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -30,14 +30,15 @@ namespace tools {
 class Timer {
   bool clear = false;
 
- public:
-  template <typename Function>
-  void SetTimeout(Function function, int delay) {
+public:
+  template <typename Function> void SetTimeout(Function function, int delay) {
     this->clear = false;
     std::thread t([=]() {
-      if (this->clear) return;
+      if (this->clear)
+        return;
       std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-      if (this->clear) return;
+      if (this->clear)
+        return;
       function();
     });
     t.detach();
@@ -48,9 +49,11 @@ class Timer {
     this->clear = false;
     std::thread t([=]() {
       while (true) {
-        if (this->clear) return;
+        if (this->clear)
+          return;
         std::this_thread::sleep_for(std::chrono::milliseconds(interval));
-        if (this->clear) return;
+        if (this->clear)
+          return;
         function();
       }
     });
@@ -58,4 +61,4 @@ class Timer {
   }
   void Stop() { this->clear = true; }
 };
-}  // namespace tools
+} // namespace tools

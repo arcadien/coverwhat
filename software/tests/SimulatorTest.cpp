@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -70,7 +70,7 @@ void Expect_simulator_to_be_clocked() {
   // extended Simulator class which
   // count the ticks
   class TestHw : public hardware::Simulator {
-   public:
+  public:
     int tickCount = 0;
     void OnTick() override { tickCount++; }
   };

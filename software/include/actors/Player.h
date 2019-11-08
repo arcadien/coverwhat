@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -24,7 +24,7 @@
 
 namespace actors {
 class Player {
- public:
+public:
   Player(uint16_t initialHealth)
       : _health(Entity::Tag::Health, initialHealth), _team(Team::None) {}
 
@@ -41,10 +41,9 @@ class Player {
 
   Entity const &GetHealth() { return _health; }
 
- private:
+private:
   void SetHealth(uint16_t value) { _health.SetValue(value); }
   Entity _health;
   const Team _team;
 };
-}  // namespace actors
-
+} // namespace actors

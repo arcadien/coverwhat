@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -33,12 +33,11 @@ namespace ui {
  *
  */
 class ConsoleUi : public IUi {
- public:
+public:
   static const uint8_t READ_DELAY_MS;
 
   ConsoleUi(std::istream &inputStream, std::ostream &outputStream)
-      : _available(false),
-        _inputStream(inputStream),
+      : _available(false), _inputStream(inputStream),
         _outputStream(outputStream) {
     _inputReader.SetInterval(
         [this]() {
@@ -75,11 +74,11 @@ class ConsoleUi : public IUi {
     _outputStream << message << std::endl;
   }
 
- private:
+private:
   std::istream &_inputStream;
   std::ostream &_outputStream;
   tools::Timer _inputReader;
   mutable bool _available;
   Action _actionQueue[1];
 };
-}  // namespace ui
+} // namespace ui

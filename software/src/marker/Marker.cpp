@@ -1,5 +1,5 @@
 /*
- * This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+ * This file is part of the Hack distribution (https://github.com/arcadien/Hack)
  *
  * Copyright (c) 2019 Aurélien Labrosse
  *
@@ -47,7 +47,7 @@ volatile uint16_t INACTIVITY_COUNTER = 0;
 // we sleep 60ms when no fire
 // we sleep 30ms when a fire occurend (around 28ms for a shot)
 // so we have a freq of 1000/60, 16,666Hz
-static const uint16_t COUNT_FOR_10S = 167;  // 16,6 * 10
+static const uint16_t COUNT_FOR_10S = 167; // 16,6 * 10
 
 struct Weapon {
   // bit position: action index
@@ -62,7 +62,7 @@ struct Weapon {
   uint8_t FIRST_DPS = 50;
 
   // first action dommage per second
-  uint8_t SECOND_DPS = 80;  // health
+  uint8_t SECOND_DPS = 80; // health
 };
 
 #define SERIAL_DEBUG
@@ -76,9 +76,9 @@ struct Weapon {
 #define DISMISS_HEARTBEAT TIMSK1 &= ~(1U << OCIE1A)
 void SetupHeartBeat() {
   DISMISS_HEARTBEAT;
-  TCCR1A = 0;  // set entire TCCR1A register to 0
-  TCCR1B = 0;  // same for TCCR1B
-  TCNT1 = 0;   // initialize counter value to 0
+  TCCR1A = 0; // set entire TCCR1A register to 0
+  TCCR1B = 0; // same for TCCR1B
+  TCNT1 = 0;  // initialize counter value to 0
 
   // turn on CTC mode
   TCCR1B |= (1 << WGM12);
@@ -86,7 +86,7 @@ void SetupHeartBeat() {
   TCCR1B |= (1 << CS12) | (1 << CS10);
 
   // 16,66hz
-  OCR1A = 936;  // close to 16,66hz
+  OCR1A = 936; // close to 16,66hz
 }
 
 ISR(TIMER1_COMPA_vect) { INACTIVITY_COUNTER++; }
@@ -155,7 +155,7 @@ void send(uint16_t code) {
   digitalWrite(LED, LOW);
 }
 
-void Print(const char* content) {
+void Print(const char *content) {
 #ifdef SERIAL_DEBUG
   Serial.println(content);
   delay(2);
