@@ -52,7 +52,12 @@ set(UNIT_TESTS
 )
 
 if(AVR)
-  list(APPEND UNIT_TESTS Atmega328pTest.cpp)
+
+  list(APPEND UNIT_TESTS 
+    Atmega328pTest.cpp
+    InfraredRc5Test.cpp
+  )
+
 else()
   
   list(APPEND UNIT_TESTS 
@@ -68,6 +73,7 @@ else()
   list(APPEND LIB_H 
     ./include/hardware/simulator/Simulator.h
     ./include/ui/ConsoleUi.h
+    ./include/transports/InfraredRc5.h
   )
 endif()
 

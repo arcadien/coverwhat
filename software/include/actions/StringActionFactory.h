@@ -50,9 +50,9 @@ class StringActionFactory {
     const char *pAmount = _pAmount;
 
     IAction::Type type;
-    if ((char)IAction::Type::DAMAGE == buffer[0]) {
+    if ('D' == buffer[0]) {
       type = IAction::Type::DAMAGE;
-    } else if ((char)IAction::Type::HEAL == buffer[0]) {
+    } else if ('H' == buffer[0]) {
       type = IAction::Type::HEAL;
     } else {
       type = IAction::Type::NONE;

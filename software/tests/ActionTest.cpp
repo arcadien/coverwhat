@@ -37,6 +37,9 @@ void Expect_Resurect_to_do_nothing_on_non_dead_player();
 void Expect_Entity_value_cannot_be_lower_than_zero();
 void Expect_Damage_to_lower_down_to_zero_not_less();
 
+void Expect_Action_Compact_representation_to_handle_type();
+void Expect_Action_Compact_representation_to_handle_amount();
+
 int main(int, char **) {
   UNITY_BEGIN();
   RUN_TEST(Expect_Action_to_use_provided_entityTag);
@@ -49,10 +52,13 @@ int main(int, char **) {
   RUN_TEST(Expect_Resurect_to_do_nothing_on_non_dead_player);
   RUN_TEST(Expect_Entity_value_cannot_be_lower_than_zero);
   RUN_TEST(Expect_Damage_to_lower_down_to_zero_not_less);
+  RUN_TEST(Expect_Action_Compact_representation_to_handle_type);
+  RUN_TEST(Expect_Action_Compact_representation_to_handle_amount);
   return UNITY_END();
 }
-void tearDown() {}
-void setUp() {}
+void setUp(void) {}
+
+void tearDown(void) {}
 
 void Expect_Damage_to_lower_down_to_zero_not_less() {
   Action action(Action::Type::DAMAGE, Entity::Tag::Health,
@@ -129,3 +135,33 @@ void Expect_Action_to_use_provided_entityTag() {
 }
 
 void Expect_default_Action_to_be_creatable() { Action action; }
+
+void Expect_Action_Compact_representation_to_handle_type() {
+  IAction::CompactType compactAction = 1;
+  compactAction <<= 4;
+  Action damageAction(compactAction);
+  TEST_ASSERT_EQUAL(IAction::Type::DAMAGE, damageAction.GetType());
+
+  compactAction <<= 1;
+  Action healAction(compactAction);
+  TEST_ASSERT_EQUAL(IAction::Type::HEAL, healAction.GetType());
+}
+
+void Expect_Action_Compact_representation_to_handle_amount() {
+  IAction::CompactType compactAction = 1;
+
+  compactAction <<= 1;
+  Action damageAction = Action(compactAction);
+  TEST_ASSERT_EQUAL_INT(IAction::Type::NONE, damageAction.GetType());
+  TEST_ASSERT_EQUAL_INT(IAction::Amount::AMOUNT_1, damageAction.GetAmount());
+
+  compactAction <<= 1;
+  damageAction = Action(compactAction);
+  TEST_ASSERT_EQUAL_INT(IAction::Type::NONE, damageAction.GetType());
+  TEST_ASSERT_EQUAL_INT(IAction::Amount::AMOUNT_5, damageAction.GetAmount());
+
+  compactAction <<= 1;
+  damageAction = Action(compactAction);
+  TEST_ASSERT_EQUAL_INT(IAction::Type::NONE, damageAction.GetType());
+  TEST_ASSERT_EQUAL_INT(IAction::Amount::AMOUNT_25, damageAction.GetAmount());
+}

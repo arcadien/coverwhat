@@ -17,12 +17,10 @@
  */
 
 #include <Arduino.h>
-#include <boarddefs.h>
-
-#include <LowPower.h>
-
 #include <IRremote.h>
 #include <IRremoteInt.h>
+#include <LowPower.h>
+#include <boarddefs.h>
 
 IRsend irsend;
 
@@ -103,19 +101,6 @@ uint16_t _damage;
 uint16_t _heal;
 
 void setup() {
-  /*
-    EventBuilder eb;
-
-    eb.SetSource(0b00000001);
-    eb.SetAmount(AMOUNT_10);
-    eb.SetType(DAMAGE);
-    _damage = eb.Build();
-
-    eb.SetSource(0b00000001);
-    eb.SetAmount(AMOUNT_10);
-    eb.SetType(_HEAL);
-    _heal = eb.Build();
-  */
   _damage = ONE;
   _heal = HEAL;
 

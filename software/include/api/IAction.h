@@ -32,6 +32,13 @@
  */
 class IAction {
  public:
+  /*
+   * All IAction information must be storable in a CompactType
+   *
+   * The unsigned long is composed of 4 bytes, 32 bits
+   */
+  using CompactType = unsigned long;
+
   enum class Amount : uint8_t {
     AMOUNT_0 = 0,
     AMOUNT_1 = 1,
@@ -43,14 +50,15 @@ class IAction {
     AMOUNT_250 = 250
   };
 
-  enum class Type : char {
-    DAMAGE = 'D',
-    HEAL = 'H',
-    /* STUN='S',*/
-    RESURRECT = 'R',
-    NONE = 'N',
+  enum class Type : uint8_t {
+    DAMAGE = 0x01,
+    HEAL = 0x02,
+    /* STUN = 0x03, */
+    RESURRECT = 0x04,
+    NONE = 0x0
   };
 
+  virtual Type const& GetType() const = 0;
   virtual Entity::Tag const& GetTargetEntityTag() const = 0;
   virtual Amount GetAmount() const = 0;
   virtual uint8_t GetCoolDownMs() const = 0;
