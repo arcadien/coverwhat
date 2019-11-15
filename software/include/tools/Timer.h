@@ -20,6 +20,8 @@
 
 #include <mutex>
 #include <thread>
+#include <time.h>
+
 
 namespace tools {
 /*!
@@ -45,7 +47,7 @@ public:
   }
 
   template <typename Function>
-  void SetInterval(Function function, int interval) {
+  void SetInterval(Function function, int interval) { 
     this->clear = false;
     std::thread t([=]() {
       while (true) {

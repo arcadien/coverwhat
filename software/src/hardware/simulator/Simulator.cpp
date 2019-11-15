@@ -17,59 +17,57 @@
  */
 
 #include <hardware/simulator/Simulator.h>
-#include <numeric>
-#include <thread>
 
 #include <chrono>
 #include <mutex>
+#include <numeric>
+#include <thread>
+
+namespace {
+void SleepInMs(uint64_t ms) {
+  struct timespec ts;
+  ts.tv_sec = ms / 1000;
+  ts.tv_nsec = ms % 1000 * 1000000;
+
+  while (nanosleep(&ts, &ts) == -1 && errno == EINTR)
+    ;
+}
+
+uint64_t NowInMs() {
+  struct timespec now;
+  clock_gettime(CLOCK_MONOTONIC, &now);
+  return static_cast<uint64_t>(now.tv_sec * 1000 + now.tv_nsec / 1000000);
+}
+
+}  // namespace
 
 namespace hardware {
 
 Simulator::Simulator(unsigned long initialMillis)
-    : _millis(initialMillis), _primaryActionExecutionCount(0),
+    : _millis(NowInMs()),
+      _primaryActionExecutionCount(0),
       _secondaryActionExecutionCount(0) {
   Setup();
 }
 
 Simulator::~Simulator() { Stop(); }
 
-void Simulator::sleepMs(uint16_t ms) {
-  auto duration = std::chrono::milliseconds(ms);
-  std::this_thread::sleep_for(duration);
-}
+void Simulator::sleepMs(uint16_t ms) { SleepInMs(ms); }
 
 void Simulator::WaitForEvent() {
-  std::this_thread::sleep_for(std::chrono::milliseconds(2 * TICK_INTERVAL_MS));
+  SleepInMs(static_cast<uint16_t>(2 * TICK_INTERVAL_MS));
 }
 
 void Simulator::Stop() {
-  _millisClock.Stop();
   _tickClock.Stop();
-
   // wait for threads to actually stop
-  auto delay = std::chrono::milliseconds(TICK_INTERVAL_MS);
-
+  auto delay = std::chrono::milliseconds(200);
   std::this_thread::sleep_for(delay);
 }
 
 void Simulator::Setup() {
   _primaryActionExecutionCount = 0;
   _secondaryActionExecutionCount = 0;
-
-  _millisClock.SetInterval(
-      [=]() {
-        static const unsigned long max =
-            std::numeric_limits<unsigned long>::max();
-        if (_millis < max) {
-          std::lock_guard<std::mutex> guard(_millisMutex);
-          ++_millis;
-        } else {
-          std::lock_guard<std::mutex> guard(_millisMutex);
-          _millis = 0;
-        }
-      },
-      1);
-
   _tickClock.SetInterval(
       [=]() {
         std::lock_guard<std::mutex> guard(_tickMutex);
@@ -85,10 +83,7 @@ void Simulator::Setup() {
  * which mean the clock will overflow to 0 roughly each 50 days
  *
  */
-unsigned long Simulator::Millis() {
-  std::lock_guard<std::mutex> guard(_millisMutex);
-  return _millis;
-}
+unsigned long Simulator::Millis() { return NowInMs() - _millis; }
 
 long Simulator::PrimaryActionCount() { return _primaryActionExecutionCount; }
 
@@ -109,4 +104,4 @@ void Simulator::OnPrimaryAction() {}
 void Simulator::OnSecondaryAction() {}
 void Simulator::OnTick() {}
 
-} // namespace hardware
+}  // namespace hardware
