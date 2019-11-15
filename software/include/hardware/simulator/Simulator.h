@@ -36,7 +36,7 @@ namespace hardware {
  * hardware target.
  */
 class Simulator : public IHardware {
-public:
+ public:
   Simulator(unsigned long initialMillis = 0);
   virtual ~Simulator();
   void sleepMs(uint16_t ms) override;
@@ -63,13 +63,11 @@ public:
   void TriggerPrimaryAction();
   void TriggerSecondaryAction();
 
-private:
-  tools::Timer _millisClock;
+ private:
   tools::Timer _tickClock;
-  unsigned long _millis;
+  uint64_t _millis;
   long _primaryActionExecutionCount;
   long _secondaryActionExecutionCount;
   std::mutex _tickMutex;
-  std::mutex _millisMutex;
 };
-} // namespace hardware
+}  // namespace hardware
