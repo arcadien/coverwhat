@@ -24,6 +24,8 @@
 
 #include <tools/RGBColor.h>
 #include <ui/BluetoothElectronicUi.h>
+#include <ui/Ssd1306Ui.h>
+#include <actors/Player.h>
 
 //------------------------------------------------------------------------------
 // Tell IRremote which Arduino pin is connected to the IR Receiver (TSOP4838)
@@ -36,18 +38,17 @@ IRsend irsend;
 // Configure the Arduino
 //
 
+ui::Ssd1306 localScreen;
 ui::BluetoothElectronicUi userInterface(57600);
+actors::Player player(200);
 
-int health;
-int livesCounter;
-int ammo;
+
+//int livesCounter;
 RGBColor rgbColor;
 
-const char *heroes[] = {"dps", "tank", "healer", "sniper"};
-uint8_t heroIndex;
-
 int hue;
-int saturation;
+uint8_t saturation;
+uint8_t brightness;
 
 int ledPinR = 5;
 int ledPinG = 6;
@@ -63,15 +64,11 @@ void postColors(RGBColor const &rgb_color) {
 }
 
 void setup() {
-  heroIndex = 0;
-  livesCounter = 1;
-  health = 500;
-  ammo = 100;
 
-  Serial.println("*L" + String(health) + "*");
-  Serial.println("*S" + String(livesCounter) + "*");
-  Serial.println("*E" + String(heroes[heroIndex]) + "*");
-  Serial.println("*A" + String(ammo) + "*");
+  userInterface.Display(player.GetHealth());
+  //userInterface.Print("*S" + String(livesCounter) + "*");
+  //userInterface.Print("*E" + String(heroes[heroIndex]) + "*");
+  //userInterface.Print("*A" + String(ammo) + "*");
 
   irrecv.enableIRIn(); // Start the receiver
 
@@ -79,71 +76,34 @@ void setup() {
   pinMode(6, OUTPUT); // green
   pinMode(9, OUTPUT); // blue
 
-  int saturation = 255; // saturation is a number between 0 - 255
-  int brightness = 255; // value is a number between 0 - 255
+  saturation = 255;  // saturation is a number between 0 - 255
+  brightness = 255;  // value is a number between 0 - 255
 
   rgbColor.FromHSV(145, saturation, brightness);
   postColors(rgbColor);
 }
 
-//+=============================================================================
-// The repeating section of the code
-//
-void loop() {
-  if (Serial.available() > 0) {
-    uint8_t incomingByte = Serial.read();
 
-    Serial.println("Received: " + incomingByte);
-
-    if (incomingByte == 'R') {
-      health = 500;
-      livesCounter++;
-
-      for (int i = 0; i < 500; i++) {
+void RezRgbAnimation()
+{
+   for (int i = 0; i < 500; i++) {
         hue = map(i, 0, 500, 0,
                   145); // map health between red (dead) and green-blue
         rgbColor.FromHSV(hue, 255, 255);
         postColors(rgbColor);
         delay(5); // 5*500 = 2.5s
       }
+}
 
-      health = 500;
-      Serial.println("*L" + String(health) + "*");
-      Serial.println("*S" + String(livesCounter) + "*");
+//+=============================================================================
+// The repeating section of the code
+//
+void loop() {
 
-    }
-
-    else if (incomingByte == 'C') {
-      // change hero type
-      // simulate using a marvelous colour shade
-      RGBColor tempColor;
-      int saturation = 255; // saturation is a number between 0 - 255
-      int brightness = 255; // value is a number between 0 - 255
-
-      for (int i = health; i > 0; i--) {
-        hue = map(i, 0, 500, 0,
-                  145); // map health between red (dead) and green-blue
-        tempColor.FromHSV(hue, saturation, brightness);
-        postColors(tempColor);
-        delay(5);
-      }
-
-      for (int i = 0; i < health; i++) {
-        hue = map(i, 0, 500, 0,
-                  145); // map health between red (dead) and green-blue
-        tempColor.FromHSV(hue, saturation, brightness);
-        postColors(tempColor);
-        delay(5);
-      }
-
-      if (heroIndex < 3) {
-        heroIndex++;
-
-      } else {
-        heroIndex = 0;
-      }
-      Serial.println("*E" + String(heroes[heroIndex]) + "*");
-    }
+  if(userInterface.ActionAvailable())
+  {
+    Action action = userInterface.GetAction();
+    player.Accept(action);
   }
 
   decode_results results; // Somewhere to store the results
@@ -151,8 +111,8 @@ void loop() {
   if (irrecv.decode(&results)) { // Grab an IR code
 
     // All protocols have data
-    Serial.print("Raw IR value = 0b");
-    Serial.print(results.value, BIN);
+    userInterface.Print("Raw IR value = 0b");
+    Serial.println(results.value, BIN);
 
     unsigned long value = results.value;
     unsigned long mask = 0b100000000000;
@@ -161,10 +121,11 @@ void loop() {
     // Serial.print("Value = 0b");
     // Serial.print(value, BIN);
     // Serial.println(";");
-
+    int health = player.GetHealth().GetValue();
+    
     if (health > 0) {
       if (value > 0 && value < 4) {
-        Serial.println("*DV10*");
+        userInterface.Print("*DV10*");
       }
 
       if (value == 1) {
@@ -181,24 +142,21 @@ void loop() {
       }
       if (value == 4) {
         if (health < 500) {
-          Serial.println("*HV10*");
+          userInterface.Print("*HV10*");
         }
         health = min(500, health + 20);
       }
       if (health == 0) {
         // just died
-        Serial.println("*MV10*");
+        userInterface.Print("*MV10*");
       }
     }
 
-    Serial.println("*L" + String(health) + "*");
+    userInterface.Display(player.GetHealth());
 
     if (health > 0) {
-      hue = map(health, 0, 500, 0, 145); // hue is a number between 0 and 360
-      int saturation = 255; // saturation is a number between 0 - 255
-      int brightness = 255; // value is a number between 0 - 255
-
-      rgbColor.FromHSV(hue, saturation, brightness); // converts HSB to RGB
+      hue = map(health, 0, 500, 0, 145);  // hue is a number between 0 and 360
+      rgbColor.FromHSV(hue, saturation, brightness);  // converts HSB to RGB
     } else {
       rgbColor.red = 0;
       rgbColor.green = 0;
