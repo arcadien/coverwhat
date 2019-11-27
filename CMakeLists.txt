@@ -45,7 +45,6 @@ endforeach()
 
 include_directories("${SOURCES_DIR}/include/")
 
-
 include_directories("${SOURCES_DIR}/third_party/unity/src/")
 
 include(CTest)
