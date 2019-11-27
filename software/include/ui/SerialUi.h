@@ -26,7 +26,7 @@ public:
   SerialUi(int baudrate) : _available(false) {}
 
   bool ActionAvailable() const override { return _available; }
-  Action const &GetAction() const override { return Action(); }
+  Action GetAction() const override { return Action(); }
   void DisplayDied() const override {}
   void Display(Entity const &entity) const override {}
   void Print(char const *message) const override;

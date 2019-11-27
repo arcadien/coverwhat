@@ -52,7 +52,16 @@ set(UNIT_TESTS
 )
 
 if(AVR)
-  list(APPEND UNIT_TESTS Atmega328pTest.cpp)
+  
+list(APPEND UNIT_TESTS Atmega328pTest.cpp)
+  
+list(APPEND LIB_H
+  ./include/ui/Ssd1306Ui.h
+)
+list(APPEND LIB_CPP 
+  ./src/ui/Ssd1306Ui.cpp
+)
+
 else()
   
   list(APPEND UNIT_TESTS 

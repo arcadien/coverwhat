@@ -79,17 +79,46 @@ void DrawUi() {
 
 namespace ui {
 
+
 class BluetoothElectronicUi : public IUi {
 public:
   BluetoothElectronicUi(int baudrate) {
     Serial.begin(baudrate);
     DrawUi();
   }
-  bool ActionAvailable() const override { return false; }
-  Action GetAction() const override { return Action(); }
+
+  bool ActionAvailable() const override {
+    bool result = false;
+    if(Serial.available()){
+      uint8_t incomingByte = Serial.read();
+      if (incomingByte == 'R') {
+        Action a(Action::Type::RESURRECT, Entity::Tag::Health, Action::Amount::AMOUNT_0, 0);
+        _action = a;
+      }
+      result = true;
+    }
+    return result;
+  }
+
+  Action GetAction() const override { return _action; }
+  
   void DisplayDied() const override {}
-  void Display(Entity const &entity) const override {}
-  void Print(char const *message) const override { Serial.println(message); }
+
+  void Display(Entity const& entity) const override 
+  {
+    if(Entity::Tag::Health == entity.GetTag()){
+      Serial.print("*L");
+      Serial.print(entity.GetValue()); 
+      Serial.println("*");
+    }
+  }
+
+  void Print(char const* message) const override { 
+    Serial.println(message); 
+  }
+
+  private:
+  mutable Action _action;
 };
 } // namespace ui
 

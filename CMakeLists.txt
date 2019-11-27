@@ -1,5 +1,5 @@
 #
-# This file is part of the KOTH distribution (https://github.com/arcadien/koth)
+# This file is part of the Hack distribution (https://github.com/arcadien/hack)
 #
 # Copyright (c) 2019 Aurélien Labrosse
 #
@@ -44,7 +44,6 @@ foreach(_source ${LIB_CPP})
 endforeach()
 
 include_directories("${SOURCES_DIR}/include/")
-
 
 include_directories("${SOURCES_DIR}/third_party/unity/src/")
 

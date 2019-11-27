@@ -49,24 +49,7 @@ volatile uint16_t INACTIVITY_COUNTER = 0;
 // so we have a freq of 1000/60, 16,666Hz
 static const uint16_t COUNT_FOR_10S = 167; // 16,6 * 10
 
-struct Weapon {
-  // bit position: action index
-  // 0: damage
-  // 1: healing
-  //                    87654321
-  // int8_t DPS_MASK = 0b00000000;
-
-  int8_t DPS_MASK = 0b00000010;
-
-  // main hit
-  uint8_t FIRST_DPS = 50;
-
-  // first action dommage per second
-  uint8_t SECOND_DPS = 80; // health
-};
-
 #define SERIAL_DEBUG
-
 #define HEARTBEAT
 
 #define F_CPU 16000000U
@@ -97,25 +80,11 @@ ISR(TIMER1_COMPA_vect) { INACTIVITY_COUNTER++; }
 void SetupHeartBeat() {}
 #endif
 
-Weapon weapon();
-
 uint16_t _damage;
 uint16_t _heal;
 
 void setup() {
-  /*
-    EventBuilder eb;
-
-    eb.SetSource(0b00000001);
-    eb.SetAmount(AMOUNT_10);
-    eb.SetType(DAMAGE);
-    _damage = eb.Build();
-
-    eb.SetSource(0b00000001);
-    eb.SetAmount(AMOUNT_10);
-    eb.SetType(_HEAL);
-    _heal = eb.Build();
-  */
+  
   _damage = ONE;
   _heal = HEAL;
 
@@ -126,9 +95,6 @@ void setup() {
   pinMode(_mainShotPin, INPUT_PULLUP);
   pinMode(_secondShotPin, INPUT_PULLUP);
   pinMode(_wakePin, INPUT_PULLUP);
-
-  // digitalWrite(_mainShotPin, HIGH);
-  // digitalWrite(_mainShotPin, HIGH);
 
   pinMode(LED, OUTPUT);
   digitalWrite(LED, LOW);
@@ -164,10 +130,22 @@ void Print(const char *content) {
 
 void wake() {}
 
+byte byteRead;
 void loop() {
-  if (Serial.available() > 0) {
-    Serial.read();
-    send(_damage);
+  if (Serial.available()) {
+    /* read the most recent byte */
+    byteRead = Serial.read();
+    if (byteRead == 'd')
+    {
+      Serial.println("Main shot via serial");
+      send(_damage);
+
+    } else if (byteRead == 'h')
+    {
+      Serial.println("Heal via serial");
+
+      send(_heal);
+    }
   }
 
   DISMISS_HEARTBEAT;
@@ -206,7 +184,9 @@ void loop() {
     delay(2);
 
   } else {
-    Serial.println(INACTIVITY_COUNTER);
+    //Serial.println(INACTIVITY_COUNTER);
+
+    Serial.flush();
     delay(2);
 
 #if not defined(HEARTBEAT)
@@ -215,8 +195,8 @@ void loop() {
     if (INACTIVITY_COUNTER >= COUNT_FOR_10S) {
       INACTIVITY_COUNTER = 0;
 
-      Print("s");
-
+      Print("Go to sleep");
+        delay(2);
       for (size_t blinkCounter = 3; blinkCounter > 0; --blinkCounter) {
         digitalWrite(LED, HIGH);
         delay(100);
@@ -231,7 +211,7 @@ void loop() {
 #if defined(HEARTBEAT)
   PROCESS_HEARTBEAT;
   LowPower.idle(SLEEP_FOREVER, ADC_OFF, TIMER2_OFF, TIMER1_ON, TIMER0_OFF,
-                SPI_OFF, USART0_OFF, TWI_OFF);
+                SPI_OFF, USART0_ON, TWI_OFF);
 #else
   LowPower.powerDown(sleepTime, ADC_OFF, BOD_OFF);
 #endif

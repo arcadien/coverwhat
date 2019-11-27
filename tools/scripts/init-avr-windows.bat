@@ -35,14 +35,13 @@ set MCU=atmega328p
 set BOARD=standard
 set CLOCK=16000000U
 
-cmake  %1                                        ^
--G "Unix Makefiles"                              ^
--DMCU_SPEED=%CLOCK%                              ^
--DAVR_MCU=%MCU%                                  ^
--DBOARD_VARIANT=%BOARD%                          ^
--DCMAKE_BUILD_TYPE=Release                       ^
--DARDUINO_ROOT="C:/Program Files (x86)/Arduino/" ^
--DCROSS_FROM_WINDOWS=True                        ^
--DCMAKE_TOOLCHAIN_FILE=%1\software\third_party\cmake-avr\generic-gcc-avr.cmake
-
-
+cmake  %1                                                              ^
+-DCMAKE_TOOLCHAIN_FILE:PATH=%1/software/third_party/cmake-avr/generic-gcc-avr.cmake ^
+-G "Unix Makefiles"                                                    ^
+-DMCU_SPEED:STRING=%CLOCK%                                             ^
+-DAVR_MCU:STRING=%MCU%                                                 ^
+-DBOARD_VARIANT:STRING=%BOARD%                                         ^
+-DCMAKE_BUILD_TYPE=Release                                             ^
+-DARDUINO_ROOT:PATH="C:/Program Files (x86)/Arduino/"                  ^
+-DCROSS_FROM_WINDOWS:BOOL=True                                         ^
+-DCMAKE_MAKE_PROGRAM:PATH="make"   ^
