@@ -4,7 +4,17 @@
 [![codecov](https://codecov.io/gh/arcadien/koth/branch/master/graph/badge.svg)](https://codecov.io/gh/arcadien/koth)
 
 
-Hack is a infrared based game, where players uses advanced gameplay to win. There is no only a simple shoot.
+Hack is a infrared based game, where players uses advanced gameplay to win. 
+Rather than just having a player concept, many types and active objects will be added:
+
+* healer player
+* DPS player
+* Support player
+* Respawn point
+* ... and more 
+
+The code base targets high quality level and must keep a very high test coverage.
+To ensure great behavior of hardware, testing automated scenario will be possible.
 
 
 # Links
