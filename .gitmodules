@@ -1,15 +1,15 @@
 [submodule "third_party/cmake-avr"]
-	path = software/third_party/cmake-avr
+	path = third_party/cmake-avr
 	url = https://github.com/mkleemann/cmake-avr.git
 [submodule "third_party/unity"]
-	path = software/third_party/unity
+	path = third_party/unity
 	url = https://github.com/arcadien/Unity.git
 [submodule "third_party/Low-Power"]
-	path = software/third_party/Low-Power
+	path = third_party/Low-Power
 	url = https://github.com/rocketscream/Low-Power.git
 [submodule "third_party/iremote"]
-	path = software/third_party/iremote
+	path = third_party/iremote
 	url = https://github.com/z3t0/Arduino-IRremote.git
 [submodule "third_party/ssd1306"]
-	path = software/third_party/ssd1306
+	path = third_party/ssd1306
 	url = https://github.com/lexus2k/ssd1306.git
