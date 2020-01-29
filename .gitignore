@@ -1,5 +1,5 @@
 build/
-
+.pio/
 build-avr/
 compile_commands.json
 .vscode
